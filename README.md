@@ -10,4 +10,6 @@ npm run dev
 ## TODO
 
 - [x] Tilføj stores
-- [ ] Opdater komponenter til at hente data fra stores
+- [x] Opdater komponenter til at hente data fra stores
+- [ ] Tilføj nye komponenter og style dem
+- [ ] Tilføj logik i de nye komponenter
