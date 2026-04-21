@@ -11,5 +11,5 @@ npm run dev
 
 - [x] Tilføj stores
 - [x] Opdater komponenter til at hente data fra stores
-- [ ] Tilføj nye komponenter og style dem
+- [x] Tilføj nye komponenter og style dem
 - [ ] Tilføj logik i de nye komponenter
