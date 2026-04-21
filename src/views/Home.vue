@@ -1,18 +1,24 @@
 <script setup lang="ts">
-  import RanklistTable from '../components/RanklistTable.vue'
-  import MatchList from '../components/MatchList.vue'
+import RanklistTable from '../components/RanklistTable.vue'
+import MatchList from '../components/MatchList.vue'
+import AddDeltagerModal from '../components/AddDeltagerModal.vue';
+import RegisterKampForm from '../components/RegisterKampForm.vue';
 
 </script>
 
 <template>
   <main class="grid">
     <section class="panel">
-      <h2>Rankliste</h2>
       <RanklistTable />
     </section>
 
     <section class="panel">
       <MatchList />
+      <!--<AddDeltagerModal></AddDeltagerModal>-->
+    </section>
+
+    <section class="panel">
+      <RegisterKampForm></RegisterKampForm>
     </section>
   </main>
 </template>
@@ -21,15 +27,16 @@
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 1rem;
     align-items: start;
-    padding: 16px;
+    padding: 0.75vw;
   }
 
   .panel {
-    background: var(--color-card);
-    border: 0.1vw solid var(--color-border);
-    border-radius: var(--border-radius);
+    background: #080808;
+    border-radius: 0.75rem;
     padding: 0.6vw;
+    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(229, 231, 235, 0.3);
   }
 </style>

@@ -1,22 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap');
 
 :root {
-  --color-primary: #007bff;
-  --color-secondary: #004080;
+  --color-primary: #1680f9;
+  --color-primary-hover: #278cff;
+  --color-secondary: #22572c;
 
-  --color-bg: #f8f9fa;
-  --color-card: #e9ecef;
-  --color-card-alt: #d1d3d6;
+  --color-bg: #324d37;
+  --color-card: #181818;
+  --color-card-alt: #212121;
   --color-border: #dee2e6;
-  --color-text: #495057;
+  --color-text: #f8f8f8;
 
-  --color-error: #ff4d4d;
+  --color-error: #ff3c3c;
+  --color-error-hover: #e72121;
+
+  --color-winner: #2ba3f3;
+  --color-loser: #f32b2b;
 
   --font-family: 'Roboto', 'Open Sans', sans-serif;
   --font-h1: 1.8em;
   --font-h2: 1.5em;
   --font-body: 0.9em;
-  --font-button: 0.5em;
+  --font-button: 0.8em;
 
   --border-radius: 0.6vw;
 }
@@ -32,19 +37,20 @@ body {
   font-size:  var(--font-body);
   font-weight: 400;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background-color: black;
 }
 
 h1 {
   font-size: var(--font-h1);
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 h2 {
   font-size: var(--font-h2);
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--color-text);
+  margin-bottom: 1vh;
 }
 
 button {
@@ -55,7 +61,7 @@ button {
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 1vh 1vw;
 }
 
 button:hover {

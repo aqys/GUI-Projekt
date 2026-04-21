@@ -41,7 +41,7 @@
 
     .vinder {
         font-weight: 700;
-        color: var(--color-primary);
+        color: var(--color-winner);
     }
 
     .vs {
@@ -49,6 +49,6 @@
     }
 
     .taber {
-        color: var(--color-error);
+        color: var(--color-loser);
     }
 </style>

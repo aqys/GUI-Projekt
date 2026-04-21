@@ -1,4 +1,5 @@
 <template>
+    <h2>Rankliste</h2>
     <table>
         <thead>
             <tr>

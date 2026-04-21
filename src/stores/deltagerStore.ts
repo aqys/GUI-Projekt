@@ -1,12 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from 'vue'
-
-export interface Deltager {
-    id: number;
-    navn: string;
-    points: number;
-    win: number;
-}
+import type { Deltager } from "../types";
 
 export const useDeltagerStore = defineStore('deltagere', () => {
     const deltagere = ref<Deltager[]>([

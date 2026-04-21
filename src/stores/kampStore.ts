@@ -1,14 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from 'vue'
+import type { Kamp } from "../types";
 
-export interface Kamp {
-    id: number;
-    tidspunkt: string;
-    vinder: string;
-    vinderScore: number;
-    taber: string;
-    taberScore: number;
-}
 
 export const useKampStore = defineStore('kampe', () => {
     const kampe = ref<Kamp[]>([
