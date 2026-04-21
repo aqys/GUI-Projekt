@@ -3,7 +3,7 @@
     <h2>Seneste Kampe</h2>
     <div class="kampe">
       <MatchCard
-        v-for="kamp in matches"
+        v-for="kamp in kampe"
         :key="kamp.id"
         :kamp="kamp"
       />
@@ -12,20 +12,11 @@
 </template>
 
 <script setup lang="ts">
-    import MatchCard from './MatchCard.vue'
+  import { useKampStore } from '../stores/kampStore';
+  import MatchCard from './MatchCard.vue';
 
-    type Match = {
-        id: number
-        tidspunkt: string
-        vinder: string
-        vinderScore: number
-        taber: string
-        taberScore: number
-    }
-
-    defineProps<{
-        matches: Match[]
-    }>()
+  const store = useKampStore()
+  const kampe = store.kampe
 </script>
 
 <style scoped>

@@ -18,11 +18,10 @@
 </template>
 
 <script setup lang="ts">
-    const deltagere = [
-        {navn: 'Thomas', points: 30, win: 40},
-        {navn: 'Emil', points: 10, win: 10},
-        {navn: 'Benjamin', points: 80, win: 70}
-    ]
+    import { useDeltagerStore } from '../stores/deltagerStore';
+
+    const store = useDeltagerStore()
+    const deltagere = store.deltagere
 </script>
 
 <style scoped>
