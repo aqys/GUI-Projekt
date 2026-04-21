@@ -9,5 +9,5 @@ npm run dev
 
 ## TODO
 
-- [ ] Tilføj stores
+- [x] Tilføj stores
 - [ ] Opdater komponenter til at hente data fra stores
