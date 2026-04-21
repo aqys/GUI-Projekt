@@ -1,0 +1,6 @@
+@GUIProjekt.Server_HostAddress = http://localhost:5289
+
+GET {{GUIProjekt.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

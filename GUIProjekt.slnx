@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="guiprojekt.client/guiprojekt.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="GUIProjekt.Server/GUIProjekt.Server.csproj" />
+</Solution>
