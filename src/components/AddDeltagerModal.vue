@@ -5,19 +5,39 @@
 
             <div class="felt">
                 <label>Navn</label>
-                <input type="text" placeholder="Indtast navn...">
-                <span class="fejl">Navn må ikke være tomt</span>
+                <input v-model="navn" type="text" placeholder="Indtast navn...">
+                <span v-if="fejl" class="fejl">Navn må ikke være tomt</span>
             </div>
 
             <div class="knapper">
-                <button class="anuller">Anuller</button>
-                <button class="add">Tilføj</button>
+                <button class="anuller" @click="$emit('luk')">Anuller</button>
+                <button class="add" @click="add">Tilføj</button>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import { useDeltagerStore } from '../stores/deltagerStore';
+
+const store = useDeltagerStore()
+const navn = ref('')
+const fejl = ref('')
+
+const emit = defineEmits(['luk'])
+
+function add() {
+  if (navn.value.trim() === '') {
+    fejl.value = 'Navn må ikke være tomt'
+    return
+  }
+
+  store.addDeltager(navn.value.trim())
+  navn.value = ''
+  fejl.value = ''
+  emit('luk')
+}
 
 </script>
 

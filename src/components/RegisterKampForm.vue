@@ -5,41 +5,85 @@
         <div class="form-grid">
             <div class="felt">
                 <label>Spiller 1</label>
-                <select>
-                <option>Vælg spiller...</option>
-                <option>Anders</option>
-                <option>Mads</option>
+                <select v-model="spiller1">
+                    <option value="">Vælg spiller...</option>
+                    <option v-for="d in store.deltagere" :key="d.id" :value="d.navn">{{ d.navn }}</option>
                 </select>
-                <span class="fejl">Vælg en spiller</span>
             </div>
 
             <div class="felt">
                 <label>Score</label>
-                <input type="number" min="0" placeholder="0"/>
+                <input v-model.number="score1" type="number" min="0" placeholder="0"/>
             </div>
 
             <div class="felt">
                 <label>Spiller 2</label>
-                <select>
-                    <option>Vælg spiller...</option>
-                    <option>Anders</option>
-                    <option>Mads</option>
+                <select v-model="spiller2">
+                    <option value="">Vælg spiller...</option>
+                    <option v-for="d in store.deltagere" :key="d.id" :value="d.navn">{{ d.navn }}</option>
                 </select>
-                <span class="fejl">Vælg en spiller</span>
             </div>
 
             <div class="felt">
                 <label>Score</label>
-                <input type="number" min="0" placeholder="0" />
+                <input v-model.number="score2" type="number" min="0" placeholder="0" />
             </div>
         </div>
 
-        <span class="fejl global-fejl">Spillerne må ikke være ens</span>
-        <button class="registrer">Registrer Kamp</button>
+        <span v-if="fejl" class="fejl global-fejl">{{ fejl }}</span>
+        <button class="registrer" @click="registrer">Registrer Kamp</button>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useDeltagerStore } from '../stores/deltagerStore'
+import { useKampStore } from '../stores/kampStore'
+
+
+const store = useDeltagerStore()
+const matchStore = useKampStore()
+
+const spiller1 = ref('')
+const spiller2 = ref('')
+const score1 = ref(0)
+const score2 = ref(0)
+const fejl = ref('')
+
+function registrer() {
+  if (spiller1.value === '' || spiller2.value === '') {
+    fejl.value = 'Vælg begge spillere'
+    return
+  }
+  if (spiller1.value === spiller2.value) {
+    fejl.value = 'Spillerne må ikke være ens'
+    return
+  }
+  if (score1.value === score2.value) {
+    fejl.value = 'Der skal være en vinder'
+    return
+  }
+
+  const vinder = score1.value > score2.value ? spiller1.value : spiller2.value
+  const taber  = score1.value > score2.value ? spiller2.value : spiller1.value
+  const vinderScore = Math.max(score1.value, score2.value)
+  const taberScore  = Math.min(score1.value, score2.value)
+
+  matchStore.addKamp({
+    tidspunkt: new Date().toLocaleString('da-DK'),
+    vinder,
+    vinderScore,
+    taber,
+    taberScore
+  })
+
+  spiller1.value = ''
+  spiller2.value = ''
+  score1.value = 0
+  score2.value = 0
+  fejl.value = ''
+}
+
 
 </script>
 
