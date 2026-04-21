@@ -3,24 +3,27 @@ import RanklistTable from '../components/RanklistTable.vue'
 import MatchList from '../components/MatchList.vue'
 import AddDeltagerModal from '../components/AddDeltagerModal.vue';
 import RegisterKampForm from '../components/RegisterKampForm.vue';
+import { ref } from 'vue';
 
+const isOpen = ref(false)
 </script>
 
 <template>
   <main class="grid">
     <section class="panel">
-      <RanklistTable />
-    </section>
-
-    <section class="panel">
       <MatchList />
-      <!--<AddDeltagerModal></AddDeltagerModal>-->
+    </section>
+    
+    <section class="panel">
+      <RanklistTable />
     </section>
 
     <section class="panel">
       <RegisterKampForm></RegisterKampForm>
     </section>
   </main>
+  <button class="test-modal" @click="isOpen = true">Tilføj deltager</button>
+  <AddDeltagerModal v-if="isOpen" @luk="isOpen = false" />
 </template>
 
 <style scoped>
