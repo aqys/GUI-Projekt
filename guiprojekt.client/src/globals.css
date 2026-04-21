@@ -37,7 +37,7 @@ body {
   font-size:  var(--font-body);
   font-weight: 400;
   color: var(--color-text);
-  background-color: black;
+  background-color: rgb(51, 51, 51);
 }
 
 h1 {
@@ -65,9 +65,9 @@ button {
 }
 
 button:hover {
-  background-color: #3395ff;
+  background-color: var(--color-primary-hover);
 }
 
 button:active {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary-hover);
 }

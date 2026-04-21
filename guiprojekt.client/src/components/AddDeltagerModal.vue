@@ -60,6 +60,7 @@ function add() {
         display: flex;
         flex-direction: column;
         gap: 2vh;
+        border: 1px solid rgba(229, 231, 235, 0.25);
     }
 
     .felt {
@@ -75,8 +76,8 @@ function add() {
     }
 
     input {
-        padding: 2vh .25vw;
-        border: 0.1vw solid rgba(229, 231, 235, 0.35);
+        padding: 1.25vh .25vw;
+        border: 0.1vw solid rgba(229, 231, 235, 0.15);
         border-radius: var(--border-radius);
         font-size: var(--font-body)+1;
         font-family: var(--font-family);
