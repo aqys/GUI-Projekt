@@ -31,7 +31,7 @@
     }
 
     th, td {
-        padding: 10px 16px;
+        padding: 1vh 0.5vw;
         text-align: left;
     }
 

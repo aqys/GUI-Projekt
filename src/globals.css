@@ -13,12 +13,12 @@
   --color-error: #ff4d4d;
 
   --font-family: 'Roboto', 'Open Sans', sans-serif;
-  --font-h1: 26px;
-  --font-h2: 22px;
-  --font-body: 15px;
-  --font-button: 14px;
+  --font-h1: 1.8em;
+  --font-h2: 1.5em;
+  --font-body: 0.9em;
+  --font-button: 0.5em;
 
-  --border-radius: 4px;
+  --border-radius: 0.6vw;
 }
 
 * {

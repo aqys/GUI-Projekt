@@ -20,15 +20,9 @@
 </script>
 
 <style scoped>
-    .match-list {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
     .kampe {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 0.75vh;
     }
 </style>

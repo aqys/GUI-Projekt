@@ -28,8 +28,8 @@
 
   .panel {
     background: var(--color-card);
-    border: 1px solid var(--color-border);
+    border: 0.1vw solid var(--color-border);
     border-radius: var(--border-radius);
-    padding: 16px;
+    padding: 0.6vw;
   }
 </style>

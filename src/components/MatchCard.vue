@@ -28,14 +28,14 @@
     .match-card {
         background-color: var(--color-card);
         border-radius: var(--border-radius);
-        padding: 10px 16px;
+        padding: 1vh 0.75vw;
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 0.2vh;
     }
 
     .tid {
-        font-size: 12px;
+        font-size: 0.8em;
         color: var(--color-text);
     }
 
