@@ -1,3 +1,5 @@
+using MySqlConnector;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,6 +24,26 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/api/db/ping", async (IConfiguration config) =>
+{
+    var connectionString = config.GetConnectionString("MySql");
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return Results.Problem("Connection string mangler", statusCode: 500);
+    }
+
+    try
+    {
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+        return Results.Ok(new { connected = true, serverVersion = connection.ServerVersion });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"db fejl: {ex.Message}", statusCode: 500);
+    }
+});
 
 app.MapFallbackToFile("/index.html");
 
