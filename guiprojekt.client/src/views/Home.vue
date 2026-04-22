@@ -40,9 +40,9 @@ const isOpen = ref(false)
   .panel {
     background: #080808;
     border-radius: 0.75rem;
-    padding: 0.6vw;
+    padding: 0.65vw;
     box-shadow: 2px 6px 8px 0 rgba(0, 0, 0, .375);
-    border: 1px solid rgba(229, 231, 235, 0.45);
+    border: 1px solid rgba(229, 231, 235, 0.25);
   }
 
   .fade-enter-active,
