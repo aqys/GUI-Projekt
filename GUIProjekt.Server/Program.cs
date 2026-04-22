@@ -25,7 +25,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/api/db/ping", async (IConfiguration config) =>
+app.MapGet("/api/db/test", async (IConfiguration config) =>
 {
     var connectionString = config.GetConnectionString("MySql");
     if (string.IsNullOrWhiteSpace(connectionString))
