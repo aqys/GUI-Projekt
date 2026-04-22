@@ -3,20 +3,39 @@ import { ref } from 'vue'
 import type { Deltager } from "../types";
 
 export const useDeltagerStore = defineStore('deltagere', () => {
-    const deltagere = ref<Deltager[]>([
-        { id: 1, navn: 'Thomas', points: 30, win: 40 },
-        { id: 2, navn: 'Emil', points: 10, win: 10 },
-        { id: 3, navn: 'Benjamin', points: 80, win: 70 }
-    ])
+    const deltagere = ref<Deltager[]>([])
 
-    function addDeltager(navn: string) {
-        deltagere.value.push({
-            id: deltagere.value.length + 1,
-            navn: navn,
-            points: 0,
-            win: 0
-        })
+    async function fetchDeltagere() {
+        try {
+            const response = await fetch('/api/spillere');
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Fejl fra server (${response.status}): ${errorText}`);
+            }
+
+            const data = await response.json();
+            
+            deltagere.value = data.map((d: any) => ({
+                id: d.id,
+                navn: d.navn,
+                points: 0,
+                win: 0
+            }));
+        } catch (error) {
+            console.error('Fejl ved hentning af spillere', error);
+        }
     }
 
-    return { deltagere, addDeltager }
+    async function addDeltager(navn: string) {
+        await fetch('/api/spillere', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: 0, navn: navn })
+        });
+        
+        await fetchDeltagere();
+    }
+
+    return { deltagere, fetchDeltagere, addDeltager }
 })

@@ -19,10 +19,15 @@
 </template>
 
 <script setup lang="ts">
+    import { onMounted, computed } from 'vue';
     import { useDeltagerStore } from '../stores/deltagerStore';
 
-    const store = useDeltagerStore()
-    const deltagere = store.deltagere
+    const deltagerStore = useDeltagerStore();
+    const deltagere = computed(() => deltagerStore.deltagere);
+    
+    onMounted(() => {
+        deltagerStore.fetchDeltagere();
+    })
 </script>
 
 <style scoped>

@@ -12,11 +12,16 @@
 </template>
 
 <script setup lang="ts">
+  import { onMounted, computed } from 'vue';
   import { useKampStore } from '../stores/kampStore';
   import MatchCard from './MatchCard.vue';
 
   const store = useKampStore()
-  const kampe = store.kampe
+  const kampe = computed(() => store.kampe)
+
+  onMounted(() => {
+      store.fetchKampe();
+  });
 </script>
 
 <style scoped>

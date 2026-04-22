@@ -1,5 +1,3 @@
-using MySqlConnector;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,26 +23,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/api/db/test", async (IConfiguration config) =>
-{
-    var connectionString = config.GetConnectionString("MySql");
-    if (string.IsNullOrWhiteSpace(connectionString))
-    {
-        return Results.Problem("Connection string mangler", statusCode: 500);
-    }
-
-    try
-    {
-        await using var connection = new MySqlConnection(connectionString);
-        await connection.OpenAsync();
-        return Results.Ok(new { connected = true, serverVersion = connection.ServerVersion });
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem($"db fejl: {ex.Message}", statusCode: 500);
-    }
-});
-
 app.MapFallbackToFile("/index.html");
 
 app.Run();
+
+public record Spiller(int id, string navn);
+public record Kamp(int id, int spiller1, int spiller2, int score1, int score2);
+public record KampDto(int id, string tidspunkt, string vinder, int vinderScore, string taber, int taberScore);
+public record RegisterKampDto(string tidspunkt, string vinder, int vinderScore, string taber, int taberScore);
+
