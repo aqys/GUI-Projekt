@@ -23,7 +23,7 @@
   --font-body: 0.9em;
   --font-button: 0.8em;
 
-  --border-radius: 0.6vw;
+  --border-radius: .7rem;
 }
 
 * {

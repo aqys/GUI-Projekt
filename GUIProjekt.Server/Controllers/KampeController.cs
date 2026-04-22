@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 
@@ -6,6 +7,7 @@ using MySqlConnector;
 public class KampeController : ControllerBase
 {
     private readonly IConfiguration _configuration;
+    private static readonly CultureInfo DanishCulture = CultureInfo.GetCultureInfo("da-DK");
 
     public KampeController(IConfiguration configuration)
     {
@@ -25,9 +27,10 @@ public class KampeController : ControllerBase
 
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
+            await EnsureTidspunktColumnAsync(connection);
 
             var sql = @"
-                SELECT k.id, k.score1, k.score2,
+                SELECT k.id, k.tidspunkt, k.score1, k.score2,
                        s1.navn as spiller1Navn, s2.navn as spiller2Navn
                 FROM kampe k
                 JOIN spillere s1 ON k.spiller1 = s1.id
@@ -45,13 +48,14 @@ public class KampeController : ControllerBase
                 var score1 = reader.GetInt32("score1");
                 var score2 = reader.GetInt32("score2");
                 var id = reader.GetInt32("id");
+                var tidspunkt = reader.GetDateTime("tidspunkt").ToString("dd-MM-yyyy HH:mm", DanishCulture);
 
                 string vinder = score1 > score2 ? p1Navn : (score2 > score1 ? p2Navn : p1Navn);
                 string taber = score1 > score2 ? p2Navn : (score2 > score1 ? p1Navn : p2Navn);
                 int vinderScore = score1 > score2 ? score1 : (score2 > score1 ? score2 : score1);
                 int taberScore = score1 > score2 ? score2 : (score2 > score1 ? score1 : score2);
 
-                kampe.Add(new KampDto(id, "Ukendt tidspunkt", vinder, vinderScore, taber, taberScore));
+                kampe.Add(new KampDto(id, tidspunkt, vinder, vinderScore, taber, taberScore));
             }
 
             return Ok(kampe);
@@ -73,6 +77,7 @@ public class KampeController : ControllerBase
 
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
+        await EnsureTidspunktColumnAsync(connection);
 
         int? vinderId = null;
         int? taberId = null;
@@ -103,11 +108,14 @@ public class KampeController : ControllerBase
                 return BadRequest("Kunne ikke finde vinderen eller taberen i databasen");
             }
 
-            using var command = new MySqlCommand("INSERT INTO kampe (spiller1, spiller2, score1, score2) VALUES (@s1, @s2, @sc1, @sc2)", connection);
+            var tidspunkt = ParseTidspunkt(input.tidspunkt);
+
+            using var command = new MySqlCommand("INSERT INTO kampe (spiller1, spiller2, score1, score2, tidspunkt) VALUES (@s1, @s2, @sc1, @sc2, @tidspunkt)", connection);
             command.Parameters.AddWithValue("@s1", vinderId);
             command.Parameters.AddWithValue("@s2", taberId);
             command.Parameters.AddWithValue("@sc1", input.vinderScore);
             command.Parameters.AddWithValue("@sc2", input.taberScore);
+            command.Parameters.AddWithValue("@tidspunkt", tidspunkt);
 
             await command.ExecuteNonQueryAsync();
             return Ok(new { success = true });
@@ -116,5 +124,44 @@ public class KampeController : ControllerBase
         {
             return Problem($"Fejl ved oprettelse af kampe: {ex.Message}", statusCode: 500);
         }
+    }
+
+    private static async Task EnsureTidspunktColumnAsync(MySqlConnection connection)
+    {
+        const string checkSql = @"
+            SELECT COUNT(*)
+            FROM information_schema.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME = 'kampe'
+              AND COLUMN_NAME = 'tidspunkt'";
+
+        using var checkCommand = new MySqlCommand(checkSql, connection);
+        var hasColumn = Convert.ToInt32(await checkCommand.ExecuteScalarAsync()) > 0;
+        if (hasColumn)
+        {
+            return;
+        }
+
+        const string alterSql = @"
+            ALTER TABLE kampe
+            ADD COLUMN tidspunkt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER id";
+
+        using var alterCommand = new MySqlCommand(alterSql, connection);
+        await alterCommand.ExecuteNonQueryAsync();
+    }
+
+    private static DateTime ParseTidspunkt(string tidspunkt)
+    {
+        if (DateTime.TryParse(tidspunkt, DanishCulture, DateTimeStyles.AllowWhiteSpaces, out var parsedTidspunkt))
+        {
+            return parsedTidspunkt;
+        }
+
+        if (DateTime.TryParse(tidspunkt, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out parsedTidspunkt))
+        {
+            return parsedTidspunkt;
+        }
+
+        return DateTime.Now;
     }
 }
