@@ -14,4 +14,6 @@ npm run dev
 - [x] Tilføj nye komponenter og style dem
 - [x] Tilføj logik i de nye komponenter
 - [x] Koble op til DB
-- [ ] Gem data i DB
+- [x] Gem data i DB
+- [ ] Arbejdt lidt mere på UI delen
+- [ ] Gå i gang med at sætte home page ordenligt op (ui/ux-wise)
