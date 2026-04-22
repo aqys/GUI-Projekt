@@ -83,8 +83,6 @@ function registrer() {
   score2.value = 0
   fejl.value = ''
 }
-
-
 </script>
 
 <style scoped>
