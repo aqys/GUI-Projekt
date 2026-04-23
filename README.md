@@ -1,4 +1,4 @@
-# Turneringshåndterings-GUI
+# Turneringshåndterings-Webapp
 
 ## Værktøj
 
