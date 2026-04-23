@@ -3,7 +3,9 @@ import RanklistTable from '../components/RanklistTable.vue'
 import MatchList from '../components/MatchList.vue'
 import AddDeltagerModal from '../components/AddDeltagerModal.vue';
 import RegisterKampForm from '../components/RegisterKampForm.vue';
+import TurneringsOverview from '../components/TurneringsOverview.vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import Panel from '../components/Panel.vue';
 
 const isOpen = ref(false)
 
@@ -34,19 +36,22 @@ onBeforeUnmount(() => {
 <template>
   <main class="layout">
     <section class="left-column">
-      <div class="panel">
+      <Panel>
+        <TurneringsOverview />
+      </Panel>
+      <Panel>
         <RanklistTable />
         <button class="test-modal" @click="isOpen = true" style="margin-top: 1.5vh;">Tilføj deltager</button>
-      </div>
+      </Panel>
     </section>
 
     <section class="right-column">
-      <div class="panel">
-        <RegisterKampForm />
-      </div>
-      <div class="panel">
+      <Panel>
+        <RegisterKampForm></RegisterKampForm>
+      </Panel>
+      <Panel>
         <MatchList />
-      </div>
+      </Panel>
     </section>
   </main>
   <Transition name="fade">

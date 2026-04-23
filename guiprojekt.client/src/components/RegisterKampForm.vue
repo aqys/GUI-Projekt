@@ -97,14 +97,14 @@ function registrer() {
 
     .form-grid {
         display: grid;
-        grid-template-columns: 1fr 4vw;
+        grid-template-columns: 1fr 5vw;
         gap: 3vh;
     }
 
     .felt {
         display: flex;
         flex-direction: column;
-        gap: 1.25vh;
+        gap: 1vh;
     }
 
     label {

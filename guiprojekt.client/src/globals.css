@@ -50,7 +50,7 @@ h2 {
   font-size: var(--font-h2);
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: 1vh;
+  margin-bottom: .76vh;
 }
 
 button {

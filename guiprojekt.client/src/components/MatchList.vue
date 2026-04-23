@@ -28,6 +28,6 @@
     .kampe {
         display: flex;
         flex-direction: column;
-        gap: 0.75vh;
+        gap: 1vh;
     }
 </style>
