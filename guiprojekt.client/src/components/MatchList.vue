@@ -1,14 +1,14 @@
 <template>
   <div class="match-list">
-    <h2>Seneste Kampe</h2>
+    <h2>{{ props.title }}</h2>
 
-    <MatchFilterBar v-model="filters" :spillere="spillerOptions" />
+    <MatchFilterBar v-if="props.showFilters" v-model="filters" :spillere="spillerOptions" />
 
     <div class="kampe">
-      <MatchCard v-for="kamp in kampe" :key="kamp.id" :kamp="kamp" />
+      <MatchCard v-for="kamp in visteKampe" :key="kamp.id" :kamp="kamp" />
     </div>
 
-    <p v-if="kampe.length === 0">Ingen kampe matcher filteret.</p>
+    <p v-if="visteKampe.length === 0">Ingen kampe matcher filteret.</p>
   </div>
 </template>
 
@@ -17,6 +17,18 @@ import { onMounted, computed, ref } from 'vue'
 import { useKampStore } from '../stores/kampStore'
 import MatchCard from './MatchCard.vue'
 import MatchFilterBar from './MatchFilterBar.vue'
+
+const props = withDefaults(
+  defineProps<{
+    limit?: number
+    showFilters?: boolean
+    title?: string
+  }>(),
+  {
+    showFilters: true,
+    title: 'Seneste kampe',
+  }
+)
 
 type MatchResultFilter = 'all' | 'win' | 'loss'
 type MatchFilters = {
@@ -57,7 +69,7 @@ function parseDaTidspunkt(value: string): Date | null {
   return new Date(yyyy, mm - 1, dd, hh, min)
 }
 
-const kampe = computed(() => {
+const filtreredeKampe = computed(() => {
   const q = filters.value.search.trim().toLowerCase()
   const fra = filters.value.fraDato ? new Date(filters.value.fraDato + 'T00:00:00') : null
   const til = filters.value.tilDato ? new Date(filters.value.tilDato + 'T23:59:59') : null
@@ -84,6 +96,15 @@ const kampe = computed(() => {
 
     return true
   })
+})
+
+const visteKampe = computed(() => {
+  const sorteret = [...filtreredeKampe.value].sort((a, b) => b.id - a.id)
+  if (props.limit && props.limit > 0) {
+    return sorteret.slice(0, props.limit)
+  }
+
+  return sorteret
 })
 
 onMounted(() => {

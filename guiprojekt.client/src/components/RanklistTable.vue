@@ -1,5 +1,5 @@
 <template>
-  <h2>Rankliste</h2>
+  <h2>{{ props.title }}</h2>
   <table>
     <thead>
       <tr>
@@ -25,7 +25,7 @@
     </thead>
     <tbody>
       <tr
-        v-for="deltager in sorteretRankliste"
+        v-for="deltager in visteDeltagere"
         :key="deltager.id"
         :class="{ valgt: valgtDeltagerNavn === deltager.navn }"
         tabindex="0"
@@ -45,6 +45,16 @@ import { computed, onMounted, ref } from 'vue'
 import { useDeltagerStore } from '../stores/deltagerStore'
 import { useKampStore } from '../stores/kampStore'
 import { useRanklisteStats } from '../composables/useRanklisteStats'
+
+const props = withDefaults(
+  defineProps<{
+    limit?: number
+    title?: string
+  }>(),
+  {
+    title: 'Rankliste',
+  }
+)
 
 type SorteringsKolonne = 'navn' | 'points' | 'win'
 type SorteringsRetning = 'asc' | 'desc'
@@ -80,6 +90,14 @@ const sorteretRankliste = computed(() => {
   })
 
   return liste
+})
+
+const visteDeltagere = computed(() => {
+  if (props.limit && props.limit > 0) {
+    return sorteretRankliste.value.slice(0, props.limit)
+  }
+
+  return sorteretRankliste.value
 })
 
 function skiftSortering(kolonne: SorteringsKolonne) {

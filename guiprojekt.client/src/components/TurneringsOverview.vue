@@ -14,11 +14,11 @@
       </article>
 
       <article class="stat-card stat-wide">
-        <span class="label">Førende spiller</span>
-        <strong class="value" v-if="foerendeSpiller">{{ foerendeSpiller.navn }}</strong>
+        <span class="label">Bedste spiller</span>
+        <strong class="value" v-if="bedsteSpiller">{{ bedsteSpiller.navn }}</strong>
         <strong class="value muted" v-else>Ingen data endnu</strong>
-        <span class="meta" v-if="foerendeSpiller">
-          {{ foerendeSpiller.wins }} sejre · {{ foerendeSpiller.win.toFixed(1) }}%
+        <span class="meta" v-if="bedsteSpiller">
+          {{ bedsteSpiller.wins }} kampe vundet · {{ bedsteSpiller.win.toFixed(1) }}%
         </span>
       </article>
 
@@ -37,7 +37,7 @@ const kampStore = useKampStore()
 const antalSpillere = computed(() => deltagerStore.deltagere.length)
 const antalKampe = computed(() => kampStore.kampe.length)
 
-const foerendeSpiller = computed(() => {
+const bedsteSpiller = computed(() => {
   if (deltagerStore.deltagere.length === 0) {
     return null
   }

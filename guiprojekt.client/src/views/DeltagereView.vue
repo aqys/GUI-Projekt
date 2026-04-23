@@ -1,0 +1,65 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import AddDeltagerModal from '../components/AddDeltagerModal.vue'
+import DeltagerInfoPanel from '../components/DeltagerInfoPanel.vue'
+import Panel from '../components/Panel.vue'
+import RanklistTable from '../components/RanklistTable.vue'
+
+const valgtDeltagerNavn = ref<string | null>(null)
+const isOpen = ref(false)
+</script>
+
+<template>
+  <main class="deltagere-layout">
+    <section class="left-column">
+      <Panel>
+        <RanklistTable title="Deltagere" @vaelg-deltager="valgtDeltagerNavn = $event" />
+        <button class="tilfoej-knap" @click="isOpen = true">Tilføj deltager</button>
+      </Panel>
+    </section>
+
+    <section class="right-column">
+      <Panel>
+        <DeltagerInfoPanel :valgtDeltagerNavn="valgtDeltagerNavn" />
+      </Panel>
+    </section>
+  </main>
+
+  <Transition name="fade">
+    <AddDeltagerModal v-if="isOpen" @luk="isOpen = false" />
+  </Transition>
+</template>
+
+<style scoped>
+.deltagere-layout {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+}
+
+.left-column,
+.right-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.tilfoej-knap {
+  margin-top: 1rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@media (max-width: 960px) {
+  .deltagere-layout {
+    flex-direction: column;
+  }
+}
+</style>
