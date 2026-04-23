@@ -1,10 +1,18 @@
 # Turneringshåndterings-GUI
 
+## Værktøj
+
+- Node.js - 22 LTS
+- .NET - 10.0
+
 ## For at køre projektet
 
 ```bash
+cd ./guiprojekt.client
 npm install
-npm run dev
+cd ..
+cd ./GUIProjekt.Server
+dotnet run --launch-profile https
 ```
 
 ## TODO
@@ -15,5 +23,5 @@ npm run dev
 - [x] Tilføj logik i de nye komponenter
 - [x] Koble op til DB
 - [x] Gem data i DB
-- [ ] Arbejdt lidt mere på UI delen
-- [ ] Gå i gang med at sætte home page ordenligt op (ui/ux-wise)
+- [x] Arbejdt lidt mere på UI delen
+- [ ] Videreudvikle home page
