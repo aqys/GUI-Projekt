@@ -2,17 +2,18 @@
 
 :root {
   --color-primary: #1680f9;
-  --color-primary-hover: #278cff;
+  --color-primary-hover: #5ea9ff;
   --color-secondary: #22572c;
 
   --color-bg: #324d37;
   --color-card: #212121;
   --color-card-alt: #252525;
+  --color-card-hover: #333333;
   --color-border: #dee2e6;
   --color-text: #f8f8f8;
 
-  --color-error: #ff3c3c;
-  --color-error-hover: #e72121;
+  --color-error: #f02929;
+  --color-error-hover: #ff5959;
 
   --color-winner: #2ba3f3;
   --color-loser: #f32b2b;
@@ -62,6 +63,7 @@ button {
   border-radius: var(--border-radius);
   cursor: pointer;
   padding: 1vh 1vw;
+  transition: background-color 0.15s ease-in-out;
 }
 
 button:hover {

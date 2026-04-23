@@ -110,11 +110,11 @@ function add() {
     }
 
     .anuller {
-        background-color: var(--color-error-hover);
+        background-color: var(--color-error);
         color: var(--color-text);
     }
 
     .anuller:hover {
-        background-color: var(--color-error);
+        background-color: var(--color-error-hover);
     }
 </style>

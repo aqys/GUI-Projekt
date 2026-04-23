@@ -1,77 +1,66 @@
 <template>
-    <h2>Rankliste</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Navn</th>
-                <th>Points</th>
-                <th>Win%</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="deltager in rankliste" :key="deltager.id">
-                <td>{{ deltager.navn }}</td>
-                <td>{{ deltager.points }}</td>
-                <td>{{ deltager.win.toFixed(1) }}%</td>
-            </tr>
-        </tbody>
-    </table>
+  <h2>Rankliste</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Navn</th>
+        <th>Points</th>
+        <th>Win%</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="deltager in rankliste"
+        :key="deltager.id"
+        :class="{ valgt: valgtDeltagerNavn === deltager.navn }"
+        tabindex="0"
+        @click="vaelgDeltager(deltager.navn)"
+        @keyup.enter="vaelgDeltager(deltager.navn)"
+      >
+        <td>{{ deltager.navn }}</td>
+        <td>{{ deltager.points }}</td>
+        <td>{{ deltager.win.toFixed(1) }}%</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script setup lang="ts">
-    import { onMounted, computed } from 'vue';
-    import { useDeltagerStore } from '../stores/deltagerStore';
-    import { useKampStore } from '../stores/kampStore';
-    import type { Deltager } from '../types';
+import { onMounted, ref } from 'vue'
+import { useDeltagerStore } from '../stores/deltagerStore'
+import { useKampStore } from '../stores/kampStore'
+import { useRanklisteStats } from '../composables/useRanklisteStats'
 
-    const deltagerStore = useDeltagerStore();
-    const kampStore = useKampStore();
+const emit = defineEmits<{
+  (e: 'vaelg-deltager', navn: string | null): void
+}>()
 
-    const rankliste = computed<Deltager[]>(() => {
-        const statsByName = new Map<string, { wins: number; losses: number }>();
+const deltagerStore = useDeltagerStore()
+const kampStore = useKampStore()
+const { rankliste } = useRanklisteStats()
+const valgtDeltagerNavn = ref<string | null>(null)
 
-        for (const deltager of deltagerStore.deltagere) {
-            statsByName.set(deltager.navn, { wins: 0, losses: 0 });
-        }
+function vaelgDeltager(navn: string) {
+  const nyVaerdi = valgtDeltagerNavn.value === navn ? null : navn
+  valgtDeltagerNavn.value = nyVaerdi
+  emit('vaelg-deltager', nyVaerdi)
+}
 
-        for (const kamp of kampStore.kampe) {
-            const vinderStats = statsByName.get(kamp.vinder) ?? { wins: 0, losses: 0 };
-            vinderStats.wins += 1;
-            statsByName.set(kamp.vinder, vinderStats);
+onMounted(async () => {
+  const jobs: Promise<void>[] = []
 
-            const taberStats = statsByName.get(kamp.taber) ?? { wins: 0, losses: 0 };
-            taberStats.losses += 1;
-            statsByName.set(kamp.taber, taberStats);
-        }
+  if (deltagerStore.deltagere.length === 0) {
+    jobs.push(deltagerStore.fetchDeltagere())
+  }
 
-        return deltagerStore.deltagere
-            .map((deltager) => {
-                const stats = statsByName.get(deltager.navn) ?? { wins: 0, losses: 0 };
-                const kampeSpillet = stats.wins + stats.losses;
-                const winProcent = kampeSpillet > 0 ? (stats.wins / kampeSpillet) * 100 : 0;
+  if (kampStore.kampe.length === 0) {
+    jobs.push(kampStore.fetchKampe())
+  }
 
-                return {
-                    ...deltager,
-                    points: stats.wins,
-                    win: winProcent,
-                };
-            })
-            .sort((left, right) => {
-                if (right.points !== left.points) {
-                    return right.points - left.points;
-                }
-
-                if (right.win !== left.win) {
-                    return right.win - left.win;
-                }
-
-                return left.navn.localeCompare(right.navn, 'da');
-            });
-    });
-    
-    onMounted(() => {
-        deltagerStore.fetchDeltagere();
-    })
+  if (jobs.length > 0) {
+    await Promise.all(jobs)
+  }
+})
 </script>
 
 <style scoped>
@@ -83,6 +72,11 @@
     th, td {
         padding: 1vh 0.5vw;
         text-align: left;
+    }
+
+    tbody tr:hover {
+        cursor: pointer;
+        background-color: var(--color-card-hover) !important;
     }
 
     tbody tr:nth-child(even) {

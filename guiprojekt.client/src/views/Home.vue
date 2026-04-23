@@ -6,6 +6,9 @@ import RegisterKampForm from '../components/RegisterKampForm.vue';
 import TurneringsOverview from '../components/TurneringsOverview.vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import Panel from '../components/Panel.vue';
+import DeltagerInfoPanel from '../components/DeltagerInfoPanel.vue';
+
+const valgtDeltagerNavn = ref<string | null>(null);
 
 const isOpen = ref(false)
 
@@ -40,8 +43,11 @@ onBeforeUnmount(() => {
         <TurneringsOverview />
       </Panel>
       <Panel>
-        <RanklistTable />
+        <RanklistTable @vaelg-deltager="valgtDeltagerNavn = $event" />
         <button class="test-modal" @click="isOpen = true" style="margin-top: 1.5vh;">Tilføj deltager</button>
+      </Panel>
+      <Panel>
+        <MatchList />
       </Panel>
     </section>
 
@@ -50,7 +56,7 @@ onBeforeUnmount(() => {
         <RegisterKampForm></RegisterKampForm>
       </Panel>
       <Panel>
-        <MatchList />
+        <DeltagerInfoPanel :valgtDeltagerNavn="valgtDeltagerNavn" />
       </Panel>
     </section>
   </main>

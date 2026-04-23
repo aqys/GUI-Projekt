@@ -121,7 +121,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  min-height: 5.25rem;
 }
 
 .stat-wide {
