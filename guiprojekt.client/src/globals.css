@@ -55,7 +55,7 @@ h2 {
 
 button {
   font-size: var(--font-button);
-  font-weight: 700;
+  font-weight: 600;
   color: white;
   background-color: var(--color-primary);
   border: none;

@@ -3,7 +3,7 @@
     <h1>Deltagerdetaljer</h1>
 
     <p v-if="!valgtDeltagerNavn" class="placeholder">
-      Klik pa en deltager i ranklisten for at se info
+      Klik på en deltager i ranklisten for at se info
     </p>
 
     <template v-else-if="detaljer">
@@ -110,10 +110,15 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  min-height: 47.5vh;
 }
 
 .placeholder {
-  opacity: 0.8;
+  opacity: 0.6;
+  width: 100%;
+  margin: auto;
+  height: max-content;
+  text-align: center;
 }
 
 .stats-grid {
