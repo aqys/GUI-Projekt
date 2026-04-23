@@ -11,7 +11,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/kampe">Kampe</RouterLink>
         <RouterLink to="/rankliste">Rankliste</RouterLink>
         <RouterLink to="/deltagere">Deltagere</RouterLink>
-        <RouterLink to="/statistik">Statistik</RouterLink>
+        <RouterLink to="/stats">Stats</RouterLink>
       </nav>
     </header>
 

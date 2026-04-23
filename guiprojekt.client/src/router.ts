@@ -31,8 +31,8 @@ const router = createRouter({
       component: DeltagereView,
     },
     {
-      path: '/statistik',
-      name: 'statistik',
+      path: '/stats',
+      name: 'stats',
       component: StatistikView,
     },
     {
