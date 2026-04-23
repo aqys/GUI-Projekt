@@ -24,6 +24,9 @@ const router = createRouter({
       path: '/rankliste',
       name: 'rankliste',
       component: RanklisteView,
+    //   beforeEnter: (to, from, next) => {
+
+    //   }
     },
     {
       path: '/deltagere',
