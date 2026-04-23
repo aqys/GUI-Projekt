@@ -15,6 +15,26 @@ cd ./GUIProjekt.Server
 dotnet run --launch-profile https
 ```
 
+## Database (meget simpelt)
+
+Vi bruger MySQL via connection string i:
+
+- `GUIProjekt.Server/appsettings.json`
+
+Nuværende opsætning:
+
+- Host: `127.0.0.1`
+- Port: `3306`
+- Database: `tunering`
+- Login (User): `tuneringskonto`
+- Password: `AdminTest123!`
+
+Connection string:
+
+```text
+Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminTest123!;SslMode=None;
+```
+
 ## TODO
 
 - [x] Tilføj stores
