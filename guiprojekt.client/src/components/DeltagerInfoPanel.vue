@@ -32,7 +32,7 @@
           <span class="badge" :class="kamp.resultat === 'W' ? 'win' : 'loss'">
             {{ kamp.resultat }}
           </span>
-          <span class="linje"><span class="tidspunkt">{{ kamp.tidspunkt }}</span> vs {{ kamp.modstander }} - <span class="score">{{ kamp.score }}</span></span>
+          <span class="linje"><span class="tidspunkt">{{ kamp.tidspunkt }}</span> vs {{ kamp.modstander }} - <span class="minScore">{{ kamp.minScore }}</span> - <span class="modstanderScore">{{ kamp.modstanderScore }}</span></span>
         </li>
       </ul>
 
@@ -82,7 +82,8 @@ const sidste10Kampe = computed(() => {
         tidspunkt: kamp.tidspunkt,
         resultat: erVinder ? 'W' : 'L',
         modstander: erVinder ? kamp.taber : kamp.vinder,
-        score: `${mineScore}-${modstanderScore}`,
+        minScore: `${mineScore}`,
+        modstanderScore: `${modstanderScore}`
       }
     })
 })
@@ -184,5 +185,13 @@ onMounted(async () => {
 }
 .score {
   font-weight: 700;
+}
+.minScore {
+  font-weight: 700;
+  color: var(--color-me);
+}
+.modstanderScore {
+  font-weight: 700;
+  color: var(--color-loser);
 }
 </style>

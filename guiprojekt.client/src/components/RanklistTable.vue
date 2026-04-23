@@ -74,6 +74,10 @@ onMounted(async () => {
         text-align: left;
     }
 
+    tbody tr{
+        transition: background-color 0.2s;
+    }
+
     tbody tr:hover {
         cursor: pointer;
         background-color: var(--color-card-hover) !important;
