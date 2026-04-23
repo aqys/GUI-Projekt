@@ -2,7 +2,7 @@
 
 ## Værktøj
 
-- Node.js - 22 LTS
+- Node.js - 24 LTS
 - .NET - 10.0
 
 ## For at køre projektet

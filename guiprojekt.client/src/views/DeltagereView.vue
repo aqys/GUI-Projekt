@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import AddDeltagerModal from '../components/AddDeltagerModal.vue'
 import DeltagerInfoPanel from '../components/DeltagerInfoPanel.vue'
+import HeadToHeadPanel from '../components/HeadToHeadPanel.vue'
 import Panel from '../components/Panel.vue'
 import RanklistTable from '../components/RanklistTable.vue'
+import { useKampStore } from '../stores/kampStore'
 
 const valgtDeltagerNavn = ref<string | null>(null)
 const isOpen = ref(false)
+const kampStore = useKampStore()
+
+onMounted(async () => {
+  await kampStore.ensureLoaded()
+})
 </script>
 
 <template>
@@ -21,6 +28,10 @@ const isOpen = ref(false)
     <section class="right-column">
       <Panel>
         <DeltagerInfoPanel :valgtDeltagerNavn="valgtDeltagerNavn" />
+      </Panel>
+
+      <Panel>
+        <HeadToHeadPanel :spiller-navn="valgtDeltagerNavn" :kampe="kampStore.kampe" />
       </Panel>
     </section>
   </main>

@@ -37,8 +37,8 @@ import { RouterLink, RouterView } from 'vue-router'
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 1rem;
-  background: linear-gradient(180deg, #1a1a1a, #111111);
-  border-bottom: 1px solid rgba(229, 231, 235, 0.2);
+  background: #111111;
+  border-bottom: 1px solid #60aaffac;
 }
 
 .brand {

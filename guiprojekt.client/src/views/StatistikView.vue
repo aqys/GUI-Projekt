@@ -4,6 +4,9 @@ import Panel from '../components/Panel.vue'
 import { useKampStore } from '../stores/kampStore'
 import { useDeltagerStore } from '../stores/deltagerStore'
 import { useRanklisteStats } from '../composables/useRanklisteStats'
+import DataStatePanel from '../components/DataStatePanel.vue'
+import RecentActivityFeed from '../components/RecentActivityFeed.vue'
+import HeadToHeadPanel from '../components/HeadToHeadPanel.vue'
 
 const kampStore = useKampStore()
 const deltagerStore = useDeltagerStore()
@@ -27,26 +30,40 @@ const mestAktive = computed(() => {
     .slice(0, 8)
 })
 
+const valgtSpillerTilDuel = computed(() => {
+  return mestAktive.value.length > 0 ? mestAktive.value[0].navn : null
+})
+
+const loading = computed(() => kampStore.isLoading || deltagerStore.isLoading)
+const error = computed(() => kampStore.error || deltagerStore.error)
+const empty = computed(() => kampStore.kampe.length === 0 && deltagerStore.deltagere.length === 0)
+
+async function retry() {
+  await Promise.all([
+    deltagerStore.fetchDeltagere({ force: true }),
+    kampStore.fetchKampe({ force: true }),
+  ])
+}
+
 onMounted(async () => {
-  const jobs: Promise<void>[] = []
-
-  if (deltagerStore.deltagere.length === 0) {
-    jobs.push(deltagerStore.fetchDeltagere())
-  }
-
-  if (kampStore.kampe.length === 0) {
-    jobs.push(kampStore.fetchKampe())
-  }
-
-  if (jobs.length > 0) {
-    await Promise.all(jobs)
-  }
+  await Promise.all([
+    deltagerStore.ensureLoaded(),
+    kampStore.ensureLoaded(),
+  ])
 })
 </script>
 
 <template>
   <main class="stats-layout">
     <Panel>
+      <DataStatePanel
+      :loading="loading"
+      :error="error"
+      :empty="empty"
+      empty-text="Ingen data endnu"
+      @retry="retry"
+      />
+
       <h2>Mest aktive spillere</h2>
       <ul class="simple-list" v-if="mestAktive.length > 0">
         <li v-for="spiller in mestAktive" :key="spiller.navn">
@@ -55,6 +72,14 @@ onMounted(async () => {
         </li>
       </ul>
       <p v-else>Ingen deltagere fundet.</p>
+    </Panel>
+
+    <Panel>
+      <RecentActivityFeed :kampe="kampStore.kampe" :limit="10" />
+    </Panel>
+
+    <Panel>
+      <HeadToHeadPanel :spiller-navn="valgtSpillerTilDuel" :kampe="kampStore.kampe" />
     </Panel>
   </main>
 </template>
@@ -87,9 +112,4 @@ onMounted(async () => {
   opacity: 0.8;
 }
 
-@media (max-width: 1100px) {
-  .stats-layout {
-    grid-template-columns: 1fr;
-  }
-}
 </style>
