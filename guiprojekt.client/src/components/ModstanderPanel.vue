@@ -2,12 +2,12 @@
     <section class="headtohead">
         <h2>Modstander overblik</h2>
 
-        <p v-if="!spillerNavn">Vælge en spiller for at se h-t-h stats</p>
+        <p v-if="!spillerNavn">Vælge en spiller for at se modstander stats</p>
 
         <ul v-else-if="rows.length > 0" class="duel-list">
             <li v-for="row in rows" :key="row.modstander">
                 <strong>{{ row.modstander }}</strong>
-                <span>{{ row.wins }}W / {{ row.losses }}L - {{ row.winRate.toFixed(1) }}%</span>
+                <span>{{ row.wins }}W / {{ row.losses }}L</span>
             </li>
         </ul>
 

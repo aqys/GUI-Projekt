@@ -6,7 +6,6 @@ import { useDeltagerStore } from '../stores/deltagerStore'
 import { useRanklisteStats } from '../composables/useRanklisteStats'
 import DataStatePanel from '../components/DataStatePanel.vue'
 import RecentActivityFeed from '../components/RecentActivityFeed.vue'
-import ModstanderPanel from '../components/ModstanderPanel.vue'
 
 const kampStore = useKampStore()
 const deltagerStore = useDeltagerStore()
@@ -28,10 +27,6 @@ const mestAktive = computed(() => {
       return b.wins - a.wins
     })
     .slice(0, 8)
-})
-
-const valgtSpillerTilDuel = computed(() => {
-  return mestAktive.value.length > 0 ? mestAktive.value[0].navn : null
 })
 
 const loading = computed(() => kampStore.isLoading || deltagerStore.isLoading)
@@ -77,17 +72,13 @@ onMounted(async () => {
     <Panel>
       <RecentActivityFeed :kampe="kampStore.kampe" :limit="10" />
     </Panel>
-
-    <Panel>
-      <ModstanderPanel :spiller-navn="valgtSpillerTilDuel" :kampe="kampStore.kampe" />
-    </Panel>
   </main>
 </template>
 
 <style scoped>
 .stats-layout {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
