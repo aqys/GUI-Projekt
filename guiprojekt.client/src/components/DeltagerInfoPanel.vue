@@ -164,13 +164,12 @@ onMounted(async () => {
 }
 
 .badge {
-  min-width: 2.75rem;
-  max-width: 2.75rem;
+  width: 1.75vw;
   text-align: center;
-  border-radius: 999px;
+  border-radius: 0.25vw;
   font-weight: 700;
   font-size: 1rem;
-  padding: 0.18rem 0.8rem;
+  padding: 0.18rem 0.15rem;
   color: #fff;
 }
 
