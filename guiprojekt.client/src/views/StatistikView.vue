@@ -6,7 +6,7 @@ import { useDeltagerStore } from '../stores/deltagerStore'
 import { useRanklisteStats } from '../composables/useRanklisteStats'
 import DataStatePanel from '../components/DataStatePanel.vue'
 import RecentActivityFeed from '../components/RecentActivityFeed.vue'
-import HeadToHeadPanel from '../components/HeadToHeadPanel.vue'
+import ModstanderPanel from '../components/ModstanderPanel.vue'
 
 const kampStore = useKampStore()
 const deltagerStore = useDeltagerStore()
@@ -79,7 +79,7 @@ onMounted(async () => {
     </Panel>
 
     <Panel>
-      <HeadToHeadPanel :spiller-navn="valgtSpillerTilDuel" :kampe="kampStore.kampe" />
+      <ModstanderPanel :spiller-navn="valgtSpillerTilDuel" :kampe="kampStore.kampe" />
     </Panel>
   </main>
 </template>

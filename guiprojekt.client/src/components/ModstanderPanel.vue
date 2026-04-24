@@ -1,6 +1,6 @@
 <template>
     <section class="headtohead">
-        <h2>Duel overblik</h2>
+        <h2>Modstander overblik</h2>
 
         <p v-if="!spillerNavn">Vælge en spiller for at se h-t-h stats</p>
 
