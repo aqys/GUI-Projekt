@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute } from 'vue-router'
-import {
-  IconLayoutDashboard,
-  IconLayoutDashboardFilled,
-  IconCircle,
-  IconCircleFilled,
-  IconTrophy,
-  IconTrophyFilled,
-  IconUserFilled,
-  IconUser,
-  IconChartPie2,
-  IconChartPie2Filled,
-} from '@tabler/icons-vue'
+import IconLayoutDashboard from '@tabler/icons-vue/dist/esm/icons/IconLayoutDashboard.mjs'
+import IconLayoutDashboardFilled from '@tabler/icons-vue/dist/esm/icons/IconLayoutDashboardFilled.mjs'
+import IconCircle from '@tabler/icons-vue/dist/esm/icons/IconCircle.mjs'
+import IconCircleFilled from '@tabler/icons-vue/dist/esm/icons/IconCircleFilled.mjs'
+import IconTrophy from '@tabler/icons-vue/dist/esm/icons/IconTrophy.mjs'
+import IconTrophyFilled from '@tabler/icons-vue/dist/esm/icons/IconTrophyFilled.mjs'
+import IconUserFilled from '@tabler/icons-vue/dist/esm/icons/IconUserFilled.mjs'
+import IconUser from '@tabler/icons-vue/dist/esm/icons/IconUser.mjs'
+import IconChartPie2 from '@tabler/icons-vue/dist/esm/icons/IconChartPie2.mjs'
+import IconChartPie2Filled from '@tabler/icons-vue/dist/esm/icons/IconChartPie2Filled.mjs'
 
 const route = useRoute()
 

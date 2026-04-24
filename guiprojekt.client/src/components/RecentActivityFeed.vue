@@ -4,7 +4,7 @@
         <ul v-if="recent.length > 0">
             <li v-for="kamp in recent" :key="kamp.id">
                 <span class="tid">{{ kamp.tidspunkt }}</span>
-                <span>{{ kamp.vinder }} {{ kamp.vinderScore }} - {{ kamp.taberScore }} {{ kamp.taber }}</span>
+                <span class="navn">{{ kamp.vinder }} <span class="vinder">{{ kamp.vinderScore }}</span> - <span class="taber">{{ kamp.taberScore }}</span> {{ kamp.taber }}</span>
             </li>
         </ul>
         <p v-else>Ingen aktivitet endnu</p>
@@ -53,5 +53,19 @@ const recent = computed(() =>
 .tid {
   opacity: 0.75;
   font-size: 0.82rem;
+}
+
+.navn {
+  font-weight: 600;
+}
+
+.vinder {
+  color: var(--color-winner);
+  font-weight: 600;
+}
+
+.taber {
+  color: var(--color-loser);
+  font-weight: 600;
 }
 </style>
