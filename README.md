@@ -17,7 +17,7 @@ dotnet run --launch-profile https
 
 ## Database
 
-Vi bruger MySQL via connection string i:
+Jeg bruger MySQL via connection string i:
 
 - `GUIProjekt.Server/appsettings.json`
 
