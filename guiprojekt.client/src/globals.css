@@ -14,7 +14,7 @@
   --color-error: #f02929;
   --color-error-hover: #ff5959;
 
-  --color-winner: #49A64D;
+  --color-winner: #38c73f;
   --color-loser: #EF5252;
   --color-me: #2ba3f3;
 
@@ -39,6 +39,7 @@ body {
   font-weight: 400;
   color: var(--color-text);
   background-color: rgb(40, 45, 46);
+  scrollbar-gutter: stable;
 }
 
 h1 {
