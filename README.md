@@ -51,6 +51,7 @@ Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminT
 - [x] Tilføj ikoner
 - [x] CRUD
 - [ ] Responsivt UI
+- [ ] Arkitektur diagram
 - [ ] Auth (maybe)
 - [ ] Tjek alt igennem
 - [ ] Færdiggør README/Dokumentation
