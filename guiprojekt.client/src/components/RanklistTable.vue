@@ -21,6 +21,7 @@
             <span class="sort-ikon">{{ hentSortSymbol('win') }}</span>
           </button>
         </th>
+        <th v-if="props.allowManage">Handlinger</th>
       </tr>
     </thead>
     <tbody>
@@ -35,9 +36,47 @@
         <td>{{ deltager.navn }}</td>
         <td>{{ deltager.points }}</td>
         <td>{{ deltager.win.toFixed(1) }}%</td>
+        <td v-if="props.allowManage" class="handlinger">
+          <button class="lille-knap" type="button" @click.stop="redigerDeltager(deltager.id, deltager.navn)">
+            Rediger
+          </button>
+          <button class="lille-knap fare" type="button" @click.stop="sletDeltager(deltager.id, deltager.navn)">
+            Slet
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
+  <p v-if="lokalFejl" class="fejl">{{ lokalFejl }}</p>
+
+  <Transition name="fade">
+    <div v-if="redigerModalAaben" class="modal-overlay" @click="redigerModalAaben = false">
+      <div class="modal" @click.stop>
+        <h3>Rediger deltager</h3>
+        <div class="felt">
+          <label for="rediger-navn">Navn</label>
+          <input id="rediger-navn" v-model="redigerNavn" type="text" placeholder="Skriv nyt navn" />
+        </div>
+        <div class="modal-knapper">
+          <button class="sekundaer" type="button" @click="redigerModalAaben = false">Annuller</button>
+          <button type="button" @click="gemRedigerDeltager">Gem</button>
+        </div>
+      </div>
+    </div>
+  </Transition>
+
+  <Transition name="fade">
+    <div v-if="sletModalAaben" class="modal-overlay" @click="sletModalAaben = false">
+      <div class="modal" @click.stop>
+        <h3>Slet deltager</h3>
+        <p>Vil du slette <strong>{{ sletNavn }}</strong>?</p>
+        <div class="modal-knapper">
+          <button class="sekundaer" type="button" @click="sletModalAaben = false">Annuller</button>
+          <button class="fare" type="button" @click="bekraeftSletDeltager">Slet</button>
+        </div>
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -50,9 +89,11 @@ const props = withDefaults(
   defineProps<{
     limit?: number
     title?: string
+    allowManage?: boolean
   }>(),
   {
     title: 'Rankliste',
+    allowManage: false,
   }
 )
 
@@ -69,6 +110,14 @@ const { rankliste } = useRanklisteStats()
 const valgtDeltagerNavn = ref<string | null>(null)
 const aktivSorteringsKolonne = ref<SorteringsKolonne>('points')
 const aktivSorteringsRetning = ref<SorteringsRetning>('desc')
+const lokalFejl = ref('')
+const redigerModalAaben = ref(false)
+const redigerId = ref<number | null>(null)
+const redigerNavn = ref('')
+const redigerOriginaltNavn = ref('')
+const sletModalAaben = ref(false)
+const sletId = ref<number | null>(null)
+const sletNavn = ref('')
 
 const sorteretRankliste = computed(() => {
   const liste = [...rankliste.value]
@@ -122,6 +171,53 @@ function vaelgDeltager(navn: string) {
   const nyVaerdi = valgtDeltagerNavn.value === navn ? null : navn
   valgtDeltagerNavn.value = nyVaerdi
   emit('vaelg-deltager', nyVaerdi)
+}
+
+function redigerDeltager(id: number, nuvaerendeNavn: string) {
+  redigerId.value = id
+  redigerNavn.value = nuvaerendeNavn
+  redigerOriginaltNavn.value = nuvaerendeNavn
+  redigerModalAaben.value = true
+}
+
+async function gemRedigerDeltager() {
+  if (redigerId.value === null) {
+    return
+  }
+
+  const trimmed = redigerNavn.value.trim()
+  if (trimmed === '' || trimmed === redigerOriginaltNavn.value) {
+    redigerModalAaben.value = false
+    return
+  }
+
+  try {
+    lokalFejl.value = ''
+    await deltagerStore.updateDeltager(redigerId.value, trimmed)
+    redigerModalAaben.value = false
+  } catch (e) {
+    lokalFejl.value = e instanceof Error ? e.message : 'Kunne ikke opdatere deltager'
+  }
+}
+
+function sletDeltager(id: number, navn: string) {
+  sletId.value = id
+  sletNavn.value = navn
+  sletModalAaben.value = true
+}
+
+async function bekraeftSletDeltager() {
+  if (sletId.value === null) {
+    return
+  }
+
+  try {
+    lokalFejl.value = ''
+    await deltagerStore.deleteDeltager(sletId.value)
+    sletModalAaben.value = false
+  } catch (e) {
+    lokalFejl.value = e instanceof Error ? e.message : 'Kunne ikke slette deltager'
+  }
 }
 
 onMounted(async () => {
@@ -190,5 +286,88 @@ onMounted(async () => {
       min-width: 1ch;
       font-size: 0.8rem;
       opacity: 0.8;
+    }
+
+    .handlinger {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .lille-knap {
+      padding: 0.35rem 0.55rem;
+      font-size: 0.78rem;
+    }
+
+    .fare:hover {
+      background-color: var(--color-error-hover) !important;
+    }
+
+    .fejl {
+      margin-top: 0.75rem;
+      color: var(--color-error);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.48);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+      padding: 1rem;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 360px;
+      background: var(--color-card-alt);
+      border: 1px solid rgba(229, 231, 235, 0.25);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .modal h3 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .felt {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .felt input {
+      padding: 0.55rem;
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(229, 231, 235, 0.2);
+      background: var(--color-card);
+      color: var(--color-text);
+      font-family: var(--font-family);
+    }
+
+    .modal-knapper {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.45rem;
+    }
+
+    .sekundaer {
+      background: transparent;
+      border: 1px solid rgba(229, 231, 235, 0.35);
+      color: var(--color-text);
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity 0.18s ease;
+    }
+
+    .fade-enter-from,
+    .fade-leave-to {
+      opacity: 0;
     }
 </style>

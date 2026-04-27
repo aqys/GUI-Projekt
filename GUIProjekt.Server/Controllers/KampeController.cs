@@ -79,29 +79,9 @@ public class KampeController : ControllerBase
         await connection.OpenAsync();
         await EnsureTidspunktColumnAsync(connection);
 
-        int? vinderId = null;
-        int? taberId = null;
-
         try
         {
-            using (var cmd = new MySqlCommand("SELECT id, navn FROM spillere WHERE navn IN (@vinder, @taber)", connection))
-            {
-                cmd.Parameters.AddWithValue("@vinder", input.vinder);
-                cmd.Parameters.AddWithValue("@taber", input.taber);
-                using var reader = await cmd.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
-                {
-                    if (reader.GetString("navn") == input.vinder)
-                    {
-                        vinderId = reader.GetInt32("id");
-                    }
-
-                    if (reader.GetString("navn") == input.taber)
-                    {
-                        taberId = reader.GetInt32("id");
-                    }
-                }
-            }
+            var (vinderId, taberId) = await ResolveSpillerIdsAsync(connection, input.vinder, input.taber);
 
             if (vinderId == null || taberId == null)
             {
@@ -124,6 +104,83 @@ public class KampeController : ControllerBase
         {
             return Problem($"Fejl ved oprettelse af kampe: {ex.Message}", statusCode: 500);
         }
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Put(int id, [FromBody] RegisterKampDto input)
+    {
+        var connectionString = _configuration.GetConnectionString("MySql");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            return Problem("Connection string mangler", statusCode: 500);
+        }
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+        await EnsureTidspunktColumnAsync(connection);
+
+        try
+        {
+            var (vinderId, taberId) = await ResolveSpillerIdsAsync(connection, input.vinder, input.taber);
+
+            if (vinderId == null || taberId == null)
+            {
+                return BadRequest("Kunne ikke finde vinderen eller taberen i databasen");
+            }
+
+            var tidspunkt = ParseTidspunkt(input.tidspunkt);
+
+            using var command = new MySqlCommand(@"
+                UPDATE kampe
+                SET spiller1 = @s1,
+                    spiller2 = @s2,
+                    score1 = @sc1,
+                    score2 = @sc2,
+                    tidspunkt = @tidspunkt
+                WHERE id = @id", connection);
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@s1", vinderId);
+            command.Parameters.AddWithValue("@s2", taberId);
+            command.Parameters.AddWithValue("@sc1", input.vinderScore);
+            command.Parameters.AddWithValue("@sc2", input.taberScore);
+            command.Parameters.AddWithValue("@tidspunkt", tidspunkt);
+
+            var rowsAffected = await command.ExecuteNonQueryAsync();
+            if (rowsAffected == 0)
+            {
+                return NotFound($"Kamp med id {id} findes ikke");
+            }
+
+            return Ok(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            return Problem($"Fejl ved opdatering af kamp: {ex.Message}", statusCode: 500);
+        }
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var connectionString = _configuration.GetConnectionString("MySql");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            return Problem("Connection string mangler", statusCode: 500);
+        }
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        using var command = new MySqlCommand("DELETE FROM kampe WHERE id = @id", connection);
+        command.Parameters.AddWithValue("@id", id);
+
+        var rowsAffected = await command.ExecuteNonQueryAsync();
+        if (rowsAffected == 0)
+        {
+            return NotFound($"Kamp med id {id} findes ikke");
+        }
+
+        return Ok(new { success = true });
     }
 
     private static async Task EnsureTidspunktColumnAsync(MySqlConnection connection)
@@ -163,5 +220,31 @@ public class KampeController : ControllerBase
         }
 
         return DateTime.Now;
+    }
+
+    private static async Task<(int? vinderId, int? taberId)> ResolveSpillerIdsAsync(MySqlConnection connection, string vinder, string taber)
+    {
+        int? vinderId = null;
+        int? taberId = null;
+
+        using var cmd = new MySqlCommand("SELECT id, navn FROM spillere WHERE navn IN (@vinder, @taber)", connection);
+        cmd.Parameters.AddWithValue("@vinder", vinder);
+        cmd.Parameters.AddWithValue("@taber", taber);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            if (reader.GetString("navn") == vinder)
+            {
+                vinderId = reader.GetInt32("id");
+            }
+
+            if (reader.GetString("navn") == taber)
+            {
+                taberId = reader.GetInt32("id");
+            }
+        }
+
+        return (vinderId, taberId);
     }
 }

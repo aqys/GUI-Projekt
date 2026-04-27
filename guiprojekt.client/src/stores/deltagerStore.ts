@@ -16,6 +16,15 @@ export const useDeltagerStore = defineStore('deltagere', () => {
 
     let inFlight: Promise<void> | null = null
 
+    async function ensureOkResponse(response: Response, fallbackMessage: string): Promise<void> {
+        if (response.ok) {
+            return
+        }
+
+        const message = (await response.text()) || fallbackMessage
+        throw new Error(message)
+    }
+
     function isFresh(maxAgeMs: number): boolean {
         if (lastLoadedAt.value === null) return false
         return Date.now() - lastLoadedAt.value < maxAgeMs
@@ -87,11 +96,40 @@ export const useDeltagerStore = defineStore('deltagere', () => {
             return
         }
 
-        await fetch('/api/v1/spillere', {
+        const response = await fetch('/api/v1/spillere', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: 0, navn: trimmed }),
         })
+
+        await ensureOkResponse(response, 'Kunne ikke oprette deltager')
+
+        await fetchDeltagere({ force: true })
+    }
+
+    async function updateDeltager(id: number, navn: string) {
+        const trimmed = navn.trim()
+        if (trimmed.length < 2) {
+            error.value = 'Navn skal være mindst 2 tegn'
+            return
+        }
+
+        const response = await fetch('/api/v1/spillere/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, navn: trimmed }),
+        })
+
+        await ensureOkResponse(response, 'Kunne ikke opdatere deltager')
+        await fetchDeltagere({ force: true })
+    }
+
+    async function deleteDeltager(id: number) {
+        const response = await fetch('/api/v1/spillere/' + id, {
+            method: 'DELETE',
+        })
+
+        await ensureOkResponse(response, 'Kunne ikke slette deltager')
 
         await fetchDeltagere({ force: true })
     }
@@ -104,5 +142,7 @@ export const useDeltagerStore = defineStore('deltagere', () => {
         fetchDeltagere,
         ensureLoaded,
         addDeltager,
+        updateDeltager,
+        deleteDeltager,
     }
 })

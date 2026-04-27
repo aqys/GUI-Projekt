@@ -50,7 +50,7 @@ const score1 = ref(0)
 const score2 = ref(0)
 const fejl = ref('')
 
-function registrer() {
+async function registrer() {
   if (spiller1.value === '' || spiller2.value === '') {
     fejl.value = 'Vælg begge spillere'
     return
@@ -69,19 +69,23 @@ function registrer() {
   const vinderScore = Math.max(score1.value, score2.value)
   const taberScore  = Math.min(score1.value, score2.value)
 
-  matchStore.addKamp({
-    tidspunkt: new Date().toLocaleString('da-DK'),
-    vinder,
-    vinderScore,
-    taber,
-    taberScore
-  })
+    try {
+        await matchStore.addKamp({
+            tidspunkt: new Date().toLocaleString('da-DK'),
+            vinder,
+            vinderScore,
+            taber,
+            taberScore
+        })
 
-  spiller1.value = ''
-  spiller2.value = ''
-  score1.value = 0
-  score2.value = 0
-  fejl.value = ''
+        spiller1.value = ''
+        spiller2.value = ''
+        score1.value = 0
+        score2.value = 0
+        fejl.value = ''
+    } catch (e) {
+        fejl.value = e instanceof Error ? e.message : 'Kunne ikke registrere kamp'
+    }
 }
 </script>
 

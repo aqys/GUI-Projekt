@@ -11,7 +11,7 @@ import MatchList from '@/components/MatchList.vue'
     </Panel>
 
     <Panel>
-      <MatchList title="Alle kampe" />
+      <MatchList title="Alle kampe" :allow-manage="true" />
     </Panel>
   </main>
 </template>

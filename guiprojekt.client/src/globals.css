@@ -14,7 +14,7 @@
   --color-error: #f02929;
   --color-error-hover: #ff5959;
 
-  --color-winner: #6ABE6E;
+  --color-winner: #49A64D;
   --color-loser: #EF5252;
   --color-me: #2ba3f3;
 
@@ -72,4 +72,12 @@ button:hover {
 
 button:active {
   background-color: var(--color-primary-hover);
+}
+
+.lille-knap {
+  background-color: #505050;
+}
+
+.fare {
+  background-color: #505050 !important;
 }

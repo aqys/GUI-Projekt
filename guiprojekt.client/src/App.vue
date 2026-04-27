@@ -11,14 +11,37 @@ import IconUserFilled from '@tabler/icons-vue/dist/esm/icons/IconUserFilled.mjs'
 import IconUser from '@tabler/icons-vue/dist/esm/icons/IconUser.mjs'
 import IconChartPie2 from '@tabler/icons-vue/dist/esm/icons/IconChartPie2.mjs'
 import IconChartPie2Filled from '@tabler/icons-vue/dist/esm/icons/IconChartPie2Filled.mjs'
+import { useDeltagerStore } from '@/stores/deltagerStore'
+import { useKampStore } from '@/stores/kampStore'
 
 const route = useRoute()
 const navLinksRef = ref<HTMLElement | null>(null)
+const deltagerStore = useDeltagerStore()
+const kampStore = useKampStore()
+const AUTO_REFRESH_MS = 25_000
+let autoRefreshTimer: number | null = null
 const indicatorStyle = ref({
   width: '0px',
   transform: 'translateX(0px)',
   opacity: '0',
 })
+
+async function refreshStores(force = false): Promise<void> {
+  if (document.hidden) {
+    return
+  }
+
+  await Promise.allSettled([
+    deltagerStore.ensureLoaded({ force, maxAgeMs: AUTO_REFRESH_MS }),
+    kampStore.ensureLoaded({ force, maxAgeMs: AUTO_REFRESH_MS }),
+  ])
+}
+
+function handleVisibilityChange(): void {
+  if (!document.hidden) {
+    void refreshStores(true)
+  }
+}
 
 function isRouteActive(path: string): boolean {
   if (path === '/dashboard') {
@@ -68,10 +91,22 @@ onMounted(async () => {
   await nextTick()
   updateActiveIndicator()
   window.addEventListener('resize', updateActiveIndicator)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+
+  await refreshStores()
+  autoRefreshTimer = window.setInterval(() => {
+    void refreshStores(true)
+  }, AUTO_REFRESH_MS)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateActiveIndicator)
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
+
+  if (autoRefreshTimer !== null) {
+    window.clearInterval(autoRefreshTimer)
+    autoRefreshTimer = null
+  }
 })
 </script>
 

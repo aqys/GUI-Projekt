@@ -16,6 +16,15 @@ export const useKampStore = defineStore('kampe', () => {
 
     let inFlight: Promise<void> | null = null
 
+    async function ensureOkResponse(response: Response, fallbackMessage: string): Promise<void> {
+        if (response.ok) {
+            return
+        }
+
+        const message = (await response.text()) || fallbackMessage
+        throw new Error(message)
+    }
+
     function isFresh(maxAgeMs: number): boolean {
         if (lastLoadedAt.value === null) return false
         return Date.now() - lastLoadedAt.value < maxAgeMs
@@ -74,11 +83,34 @@ export const useKampStore = defineStore('kampe', () => {
     }
 
     async function addKamp(kamp: Omit<Kamp, 'id'>) {
-        await fetch('/api/v1/kampe', {
+        const response = await fetch('/api/v1/kampe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(kamp),
         })
+
+        await ensureOkResponse(response, 'Kunne ikke oprette kamp')
+
+        await fetchKampe({ force: true })
+    }
+
+    async function updateKamp(id: number, kamp: Omit<Kamp, 'id'>) {
+        const response = await fetch('/api/v1/kampe/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(kamp),
+        })
+
+        await ensureOkResponse(response, 'Kunne ikke opdatere kamp')
+        await fetchKampe({ force: true })
+    }
+
+    async function deleteKamp(id: number) {
+        const response = await fetch('/api/v1/kampe/' + id, {
+            method: 'DELETE',
+        })
+
+        await ensureOkResponse(response, 'Kunne ikke slette kamp')
 
         await fetchKampe({ force: true })
     }
@@ -91,5 +123,7 @@ export const useKampStore = defineStore('kampe', () => {
         fetchKampe,
         ensureLoaded,
         addKamp,
+        updateKamp,
+        deleteKamp,
     }
 })

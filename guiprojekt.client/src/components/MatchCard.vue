@@ -6,6 +6,10 @@
       <span class="vs"> vs </span>
       <span class="taber">{{ kamp.taber }} ({{ kamp.taberScore }})</span>
     </div>
+        <div v-if="allowManage" class="handlinger">
+            <button class="lille-knap" type="button" @click="$emit('rediger', kamp)">Rediger</button>
+            <button class="lille-knap fare" type="button" @click="$emit('slet', kamp.id)">Slet</button>
+        </div>
   </div>
 </template>
 
@@ -21,6 +25,12 @@
 
     defineProps<{
         kamp: Match
+        allowManage?: boolean
+    }>()
+
+    defineEmits<{
+        (e: 'rediger', kamp: Match): void
+        (e: 'slet', id: number): void
     }>()
 </script>
 
@@ -51,5 +61,20 @@
 
     .taber {
         color: var(--color-loser);
+    }
+
+    .handlinger {
+        display: flex;
+        gap: 0.4rem;
+        margin-top: 0.4rem;
+    }
+
+    .lille-knap {
+        padding: 0.35rem 0.55rem;
+        font-size: 0.78rem;
+    }
+
+    .fare:hover {
+        background-color: var(--color-error-hover) !important;
     }
 </style>

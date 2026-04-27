@@ -47,7 +47,6 @@ Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminT
 - [x] Videreudvikle home page
 - [x] Sæt routing op
 - [x] Tilføj ikoner
-- [ ] CRUD
-- [ ] Søgning?
+- [x] CRUD
 - [ ] Responsivt UI
 - [ ] Auth (maybe)

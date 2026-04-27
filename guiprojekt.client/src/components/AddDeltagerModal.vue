@@ -27,16 +27,20 @@ const fejl = ref('')
 
 const emit = defineEmits(['luk'])
 
-function add() {
+async function add() {
   if (navn.value.trim() === '') {
     fejl.value = 'Navn må ikke være tomt'
     return
   }
 
-  store.addDeltager(navn.value.trim())
-  navn.value = ''
-  fejl.value = ''
-  emit('luk')
+    try {
+        await store.addDeltager(navn.value.trim())
+        navn.value = ''
+        fejl.value = ''
+        emit('luk')
+    } catch (e) {
+        fejl.value = e instanceof Error ? e.message : 'Kunne ikke oprette deltager'
+    }
 }
 
 </script>

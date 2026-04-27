@@ -20,7 +20,7 @@ onMounted(async () => {
   <main class="deltagere-layout">
     <section class="left-column">
       <Panel>
-        <RanklistTable title="Deltagere" @vaelg-deltager="valgtDeltagerNavn = $event" />
+        <RanklistTable title="Deltagere" :allow-manage="true" @vaelg-deltager="valgtDeltagerNavn = $event" />
         <button class="tilfoej-knap" @click="isOpen = true">Tilføj deltager</button>
       </Panel>
     </section>
