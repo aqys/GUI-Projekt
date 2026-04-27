@@ -28,11 +28,3 @@ export interface RoutePreloadResult {
     tookMs: number
     message: string | null
 }
-
-export interface HeadToHeadRow {
-    modstander: string
-    wins: number
-    losses: number
-    total: number
-    winRate: number
-}

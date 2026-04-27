@@ -1,5 +1,5 @@
 <template>
-    <section class="headtohead">
+    <section>
         <h2>Modstander overblik</h2>
 
         <p v-if="!spillerNavn">Vælge en spiller for at se modstander stats</p>
@@ -7,7 +7,7 @@
         <ul v-else-if="rows.length > 0" class="duel-list">
             <li v-for="row in rows" :key="row.modstander">
                 <strong>{{ row.modstander }}</strong>
-                <span>{{ row.wins }}W / {{ row.losses }}L</span>
+            <span>{{ row.total }} kampe - {{ row.wins }}W / {{ row.losses }}L</span>
             </li>
         </ul>
 
@@ -16,15 +16,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { HeadToHeadRow, Kamp } from '@/types';
+import { computed } from 'vue'
+import type { Kamp } from '@/types';
+
+type ModstanderRow = {
+  modstander: string
+  wins: number
+  losses: number
+  total: number
+}
 
 const props = defineProps<{
     spillerNavn: string | null
     kampe: Kamp[]
 }>()
 
-const rows = computed<HeadToHeadRow[]>(() => {
+const rows = computed<ModstanderRow[]>(() => {
   if (!props.spillerNavn) return []
 
   const map = new Map<string, { wins: number; losses: number }>()
@@ -47,20 +54,15 @@ const rows = computed<HeadToHeadRow[]>(() => {
   return Array.from(map.entries())
     .map(([modstander, stat]) => {
       const total = stat.wins + stat.losses
-      const winRate = total > 0 ? (stat.wins / total) * 100 : 0
 
       return {
         modstander,
         wins: stat.wins,
         losses: stat.losses,
         total,
-        winRate,
       }
     })
-    .sort((a, b) => {
-      if (b.total !== a.total) return b.total - a.total
-      return b.winRate - a.winRate
-    })
+    .sort((a, b) => b.total - a.total)
 })
 </script>
 
