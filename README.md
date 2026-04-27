@@ -37,6 +37,8 @@ Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminT
 
 ## TODO
 
+`Opdater løbende`
+
 - [x] Tilføj stores
 - [x] Opdater komponenter til at hente data fra stores
 - [x] Tilføj nye komponenter og style dem
