@@ -7,7 +7,7 @@ using MySqlConnector;
 public class KampeController : ControllerBase
 {
     private readonly IConfiguration _configuration;
-    private static readonly CultureInfo DanishCulture = CultureInfo.GetCultureInfo("da-DK");
+    private static readonly CultureInfo DK = CultureInfo.GetCultureInfo("da-DK");
 
     public KampeController(IConfiguration configuration)
     {
@@ -48,7 +48,7 @@ public class KampeController : ControllerBase
                 var score1 = reader.GetInt32("score1");
                 var score2 = reader.GetInt32("score2");
                 var id = reader.GetInt32("id");
-                var tidspunkt = reader.GetDateTime("tidspunkt").ToString("dd-MM-yyyy HH:mm", DanishCulture);
+                var tidspunkt = reader.GetDateTime("tidspunkt").ToString("dd-MM-yyyy HH:mm", DK);
 
                 string vinder = score1 > score2 ? p1Navn : (score2 > score1 ? p2Navn : p1Navn);
                 string taber = score1 > score2 ? p2Navn : (score2 > score1 ? p1Navn : p2Navn);
@@ -209,7 +209,7 @@ public class KampeController : ControllerBase
 
     private static DateTime ParseTidspunkt(string tidspunkt)
     {
-        if (DateTime.TryParse(tidspunkt, DanishCulture, DateTimeStyles.AllowWhiteSpaces, out var parsedTidspunkt))
+        if (DateTime.TryParse(tidspunkt, DK, DateTimeStyles.AllowWhiteSpaces, out var parsedTidspunkt))
         {
             return parsedTidspunkt;
         }
