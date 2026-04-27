@@ -68,9 +68,4 @@ onMounted(async () => {
   opacity: 0;
 }
 
-@media (max-width: 960px) {
-  .deltagere-layout {
-    flex-direction: column;
-  }
-}
 </style>
