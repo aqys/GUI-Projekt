@@ -27,8 +27,3 @@ app.MapFallbackToFile("/index.html");
 
 app.Run();
 
-public record Spiller(int id, string navn);
-public record Kamp(int id, int spiller1, int spiller2, int score1, int score2);
-public record KampDto(int id, string tidspunkt, string vinder, int vinderScore, string taber, int taberScore);
-public record RegisterKampDto(string tidspunkt, string vinder, int vinderScore, string taber, int taberScore);
-
