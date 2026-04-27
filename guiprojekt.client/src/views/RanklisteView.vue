@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Panel from '../components/Panel.vue'
-import RanklistToolbar from '../components/RanklistToolbar.vue'
-import RanklistTable from '../components/RanklistTable.vue'
+import Panel from '@/components/Panel.vue'
+import RanklistToolbar from '@/components/RanklistToolbar.vue'
+import RanklistTable from '@/components/RanklistTable.vue'
 </script>
 
 <template>

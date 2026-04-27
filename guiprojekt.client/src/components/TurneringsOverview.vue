@@ -28,8 +28,8 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { useDeltagerStore } from '../stores/deltagerStore'
-import { useKampStore } from '../stores/kampStore'
+import { useDeltagerStore } from '@/stores/deltagerStore'
+import { useKampStore } from '@/stores/kampStore'
 
 const deltagerStore = useDeltagerStore()
 const kampStore = useKampStore()

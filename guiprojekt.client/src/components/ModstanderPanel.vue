@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { HeadToHeadRow, Kamp } from '../types';
+import type { HeadToHeadRow, Kamp } from '@/types';
 
 const props = defineProps<{
     spillerNavn: string | null

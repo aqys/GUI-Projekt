@@ -37,8 +37,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useDeltagerStore } from '../stores/deltagerStore'
-import { useKampStore } from '../stores/kampStore'
+import { useDeltagerStore } from '@/stores/deltagerStore'
+import { useKampStore } from '@/stores/kampStore'
 
 
 const store = useDeltagerStore()

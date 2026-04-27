@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useDeltagerStore } from '../stores/deltagerStore';
+import { useDeltagerStore } from '@/stores/deltagerStore';
 
 const store = useDeltagerStore()
 const navn = ref('')

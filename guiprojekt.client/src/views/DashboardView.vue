@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Panel from '../components/Panel.vue'
-import TurneringsOverview from '../components/TurneringsOverview.vue'
-import RanklistTable from '../components/RanklistTable.vue'
-import MatchList from '../components/MatchList.vue'
+import Panel from '@/components/Panel.vue'
+import TurneringsOverview from '@/components/TurneringsOverview.vue'
+import RanklistTable from '@/components/RanklistTable.vue'
+import MatchList from '@/components/MatchList.vue'
 </script>
 
 <template>

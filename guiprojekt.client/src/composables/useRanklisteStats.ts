@@ -1,7 +1,7 @@
 import { computed } from 'vue'
-import { useDeltagerStore } from '../stores/deltagerStore'
-import { useKampStore } from '../stores/kampStore'
-import type { Deltager } from '../types'
+import { useDeltagerStore } from '@/stores/deltagerStore'
+import { useKampStore } from '@/stores/kampStore'
+import type { Deltager } from '@/types'
 
 export type DeltagerMedStats = Deltager & {
   wins: number

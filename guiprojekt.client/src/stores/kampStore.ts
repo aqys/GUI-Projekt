@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from 'vue'
-import type { Kamp } from "../types";
+import type { Kamp } from "@/types";
 
 type LoadOptions = {
     force?: boolean

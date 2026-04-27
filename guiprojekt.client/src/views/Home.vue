@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import RanklistTable from '../components/RanklistTable.vue'
-import MatchList from '../components/MatchList.vue'
-import AddDeltagerModal from '../components/AddDeltagerModal.vue';
-import RegisterKampForm from '../components/RegisterKampForm.vue';
-import TurneringsOverview from '../components/TurneringsOverview.vue';
+import RanklistTable from '@/components/RanklistTable.vue'
+import MatchList from '@/components/MatchList.vue'
+import AddDeltagerModal from '@/components/AddDeltagerModal.vue';
+import RegisterKampForm from '@/components/RegisterKampForm.vue';
+import TurneringsOverview from '@/components/TurneringsOverview.vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import Panel from '../components/Panel.vue';
-import DeltagerInfoPanel from '../components/DeltagerInfoPanel.vue';
+import Panel from '@/components/Panel.vue';
+import DeltagerInfoPanel from '@/components/DeltagerInfoPanel.vue';
 
 const valgtDeltagerNavn = ref<string | null>(null);
 

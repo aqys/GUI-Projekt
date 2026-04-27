@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from 'vue'
-import type { Deltager } from "../types";
+import type { Deltager } from "@/types";
 
 type LoadOptions = {
     force?: boolean

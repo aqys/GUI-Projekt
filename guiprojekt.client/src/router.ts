@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { preloadRouteData } from './composables/useRoutePreload'
-import type { PreloadKey } from './types'
+import { preloadRouteData } from '@/composables/useRoutePreload'
+import type { PreloadKey } from '@/types'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -8,12 +8,12 @@ declare module 'vue-router' {
   }
 }
 
-const DashboardView = () => import('./views/DashboardView.vue')
-const KampeView = () => import('./views/KampeView.vue')
-const RanklisteView = () => import('./views/RanklisteView.vue')
-const DeltagereView = () => import('./views/DeltagereView.vue')
-const StatistikView = () => import('./views/StatistikView.vue')
-const NotFoundView = () => import('./views/NotFoundView.vue')
+const DashboardView = () => import('@/views/DashboardView.vue')
+const KampeView = () => import('@/views/KampeView.vue')
+const RanklisteView = () => import('@/views/RanklisteView.vue')
+const DeltagereView = () => import('@/views/DeltagereView.vue')
+const StatistikView = () => import('@/views/StatistikView.vue')
+const NotFoundView = () => import('@/views/NotFoundView.vue')
 
 const router = createRouter({
   history: createWebHistory(),

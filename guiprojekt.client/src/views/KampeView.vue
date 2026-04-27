@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Panel from '../components/Panel.vue'
-import RegisterKampForm from '../components/RegisterKampForm.vue'
-import MatchList from '../components/MatchList.vue'
+import Panel from '@/components/Panel.vue'
+import RegisterKampForm from '@/components/RegisterKampForm.vue'
+import MatchList from '@/components/MatchList.vue'
 </script>
 
 <template>

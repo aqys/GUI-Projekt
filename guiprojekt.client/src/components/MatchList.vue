@@ -14,9 +14,9 @@
 
 <script setup lang="ts">
 import { onMounted, computed, ref } from 'vue'
-import { useKampStore } from '../stores/kampStore'
-import MatchCard from './MatchCard.vue'
-import MatchFilterBar from './MatchFilterBar.vue'
+import { useKampStore } from '@/stores/kampStore'
+import MatchCard from '@/components/MatchCard.vue'
+import MatchFilterBar from '@/components/MatchFilterBar.vue'
 
 const props = withDefaults(
   defineProps<{

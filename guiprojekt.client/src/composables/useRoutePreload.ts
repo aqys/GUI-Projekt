@@ -1,6 +1,6 @@
-import { useDeltagerStore } from "../stores/deltagerStore"
-import { useKampStore } from "../stores/kampStore"
-import type { PreloadKey, RoutePreloadResult } from "../types"
+import { useDeltagerStore } from "@/stores/deltagerStore"
+import { useKampStore } from "@/stores/kampStore"
+import type { PreloadKey, RoutePreloadResult } from "@/types"
 
 type PreloadOptions = {
     timeoutMs?: number
