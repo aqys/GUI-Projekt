@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import AddDeltagerModal from '@/components/AddDeltagerModal.vue'
-import DeltagerInfoPanel from '@/components/DeltagerInfoPanel.vue'
+import { ref, onMounted, defineAsyncComponent } from 'vue'
 import Panel from '@/components/Panel.vue'
-import RanklistTable from '@/components/RanklistTable.vue'
 import { useKampStore } from '@/stores/kampStore'
-import ModstanderPanel from '@/components/ModstanderPanel.vue'
+
+const AddDeltagerModal = defineAsyncComponent(() => import('@/components/AddDeltagerModal.vue'))
+const DeltagerInfoPanel = defineAsyncComponent(() => import('@/components/DeltagerInfoPanel.vue'))
+const RanklistTable = defineAsyncComponent(() => import('@/components/RanklistTable.vue'))
+const ModstanderPanel = defineAsyncComponent(() => import('@/components/ModstanderPanel.vue'))
 
 const valgtDeltagerNavn = ref<string | null>(null)
 const isOpen = ref(false)

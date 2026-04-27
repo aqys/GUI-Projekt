@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import Panel from '@/components/Panel.vue'
-import RegisterKampForm from '@/components/RegisterKampForm.vue'
-import MatchList from '@/components/MatchList.vue'
+
+const RegisterKampForm = defineAsyncComponent(() => import('@/components/RegisterKampForm.vue'))
+const MatchList = defineAsyncComponent(() => import('@/components/MatchList.vue'))
 </script>
 
 <template>

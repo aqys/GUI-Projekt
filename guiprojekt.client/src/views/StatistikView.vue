@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, defineAsyncComponent, onMounted } from 'vue'
 import Panel from '@/components/Panel.vue'
 import { useKampStore } from '@/stores/kampStore'
 import { useDeltagerStore } from '@/stores/deltagerStore'
 import { useRanklisteStats } from '@/composables/useRanklisteStats'
-import DataStatePanel from '@/components/DataStatePanel.vue'
-import RecentActivityFeed from '@/components/RecentActivityFeed.vue'
+
+const DataStatePanel = defineAsyncComponent(() => import('@/components/DataStatePanel.vue'))
+const RecentActivityFeed = defineAsyncComponent(() => import('@/components/RecentActivityFeed.vue'))
 
 const kampStore = useKampStore()
 const deltagerStore = useDeltagerStore()

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import Panel from '@/components/Panel.vue'
-import RanklistToolbar from '@/components/RanklistToolbar.vue'
-import RanklistTable from '@/components/RanklistTable.vue'
+
+const RanklistToolbar = defineAsyncComponent(() => import('@/components/RanklistToolbar.vue'))
+const RanklistTable = defineAsyncComponent(() => import('@/components/RanklistTable.vue'))
 </script>
 
 <template>
