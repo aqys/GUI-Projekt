@@ -1,5 +1,24 @@
 <template>
   <h2>{{ props.title }}</h2>
+  <div class="soeg-wrapper" :class="{ 'er-aktiv': soegeTekst.trim().length > 0 }">
+    <label class="soeg-label" for="deltager-soeg">Søg deltagere</label>
+    <div class="soeg-felt">
+      <span class="soeg-ikon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path
+            d="M10.5 4a6.5 6.5 0 1 0 4.04 11.59l4.43 4.44a1 1 0 0 0 1.42-1.42l-4.44-4.43A6.5 6.5 0 0 0 10.5 4Zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z"
+          />
+        </svg>
+      </span>
+      <input
+        id="deltager-soeg"
+        v-model="soegeTekst"
+        class="soeg-input"
+        type="search"
+        placeholder="Søg på navn..."
+      />
+    </div>
+  </div>
   <table>
     <thead>
       <tr>
@@ -111,6 +130,7 @@ const valgtDeltagerNavn = ref<string | null>(null)
 const aktivSorteringsKolonne = ref<SorteringsKolonne>('points')
 const aktivSorteringsRetning = ref<SorteringsRetning>('desc')
 const lokalFejl = ref('')
+const soegeTekst = ref('')
 const redigerModalAaben = ref(false)
 const redigerId = ref<number | null>(null)
 const redigerNavn = ref('')
@@ -119,8 +139,17 @@ const sletModalAaben = ref(false)
 const sletId = ref<number | null>(null)
 const sletNavn = ref('')
 
+const filtreretRankliste = computed(() => {
+  const query = soegeTekst.value.trim().toLowerCase()
+  if (!query) {
+    return rankliste.value
+  }
+
+  return rankliste.value.filter((deltager) => deltager.navn.toLowerCase().includes(query))
+})
+
 const sorteretRankliste = computed(() => {
-  const liste = [...rankliste.value]
+  const liste = [...filtreretRankliste.value]
   const retning = aktivSorteringsRetning.value === 'asc' ? 1 : -1
 
   liste.sort((venstre, hoejre) => {
@@ -286,6 +315,66 @@ onMounted(async () => {
       min-width: 1ch;
       font-size: 0.8rem;
       opacity: 0.8;
+    }
+
+    .soeg-wrapper {
+      display: grid;
+      gap: 0.35rem;
+      margin-bottom: 0.7rem;
+      width: min(100%, 12.5rem);
+      transition: width 0.2s ease;
+    }
+
+    .soeg-wrapper:focus-within,
+    .soeg-wrapper.er-aktiv {
+      width: min(100%, 22rem);
+    }
+
+    .soeg-label {
+      font-weight: 600;
+      font-size: 0.82rem;
+      opacity: 0.9;
+    }
+
+    .soeg-felt {
+      position: relative;
+    }
+
+    .soeg-ikon {
+      position: absolute;
+      left: 0.58rem;
+      top: 50%;
+      width: 1rem;
+      height: 1rem;
+      color: rgba(248, 248, 248, 0.65);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .soeg-ikon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    .soeg-input {
+      width: 100%;
+      min-height: 2.05rem;
+      padding: 0.35rem 0.6rem 0.35rem 2rem;
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(229, 231, 235, 0.2);
+      background: var(--color-card);
+      color: var(--color-text);
+      font-family: var(--font-family);
+      font-size: 0.86rem;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+    }
+
+    .soeg-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(22, 128, 249, 0.22);
+      background-color: #1f232b;
     }
 
     .handlinger {

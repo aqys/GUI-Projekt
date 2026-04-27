@@ -30,14 +30,23 @@
 
 <template>
   <div class="filterbar">
-    <div class="felt felt-search">
+    <div class="felt felt-search" :class="{ 'er-aktiv': modelValue.search.trim().length > 0 }">
       <label for="match-search" class="visually-hidden">Søg i kampe</label>
-      <input
-        id="match-search"
-        :value="modelValue.search"
-        placeholder="Søg i kampe..."
-        @input="patch({ search: ($event.target as HTMLInputElement).value })"
-      />
+      <div class="search-shell">
+        <span class="search-ikon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path
+              d="M10.5 4a6.5 6.5 0 1 0 4.04 11.59l4.43 4.44a1 1 0 0 0 1.42-1.42l-4.44-4.43A6.5 6.5 0 0 0 10.5 4Zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z"
+            />
+          </svg>
+        </span>
+        <input
+          id="match-search"
+          :value="modelValue.search"
+          placeholder="Søg i kampe..."
+          @input="patch({ search: ($event.target as HTMLInputElement).value })"
+        />
+      </div>
     </div>
 
     <div class="felt">
@@ -72,7 +81,7 @@
 <style scoped>
   .filterbar {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr auto;
+    grid-template-columns: auto 1fr 1fr auto;
     gap: 0.65rem;
     margin-bottom: 1rem;
     padding: 0.6rem;
@@ -85,6 +94,37 @@
 
   .felt {
     min-width: 0;
+  }
+
+  .felt-search {
+    width: 12rem;
+    transition: width 0.2s ease;
+  }
+
+  .felt-search:focus-within,
+  .felt-search.er-aktiv {
+    width: 20rem;
+  }
+
+  .search-shell {
+    position: relative;
+  }
+
+  .search-ikon {
+    position: absolute;
+    left: 0.58rem;
+    top: 50%;
+    width: 1rem;
+    height: 1rem;
+    color: rgba(248, 248, 248, 0.65);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .search-ikon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
   }
 
   input,
@@ -103,6 +143,12 @@
 
   input::placeholder {
     color: rgba(248, 248, 248, 0.58);
+  }
+
+  .felt-search input {
+    min-height: 2.15rem;
+    padding: 0.35rem 0.6rem 0.35rem 2rem;
+    font-size: 0.86rem;
   }
 
   select {
@@ -146,5 +192,17 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+
+  @media (max-width: 920px) {
+    .filterbar {
+      grid-template-columns: 1fr;
+    }
+
+    .felt-search,
+    .felt-search:focus-within,
+    .felt-search.er-aktiv {
+      width: 100%;
+    }
   }
 </style>
