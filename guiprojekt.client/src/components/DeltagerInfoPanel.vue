@@ -32,7 +32,10 @@
           <span class="badge" :class="kamp.resultat === 'W' ? 'win' : 'loss'">
             {{ kamp.resultat }}
           </span>
-          <span class="linje"><span class="tidspunkt">{{ kamp.tidspunkt }}</span> vs {{ kamp.modstander }} - <span class="minScore">{{ kamp.minScore }}</span> - <span class="modstanderScore">{{ kamp.modstanderScore }}</span></span>
+          <div class="data">
+            <span class="linje"> vs {{ kamp.modstander }} - <span class="minScore">{{ kamp.minScore }}</span> - <span class="modstanderScore">{{ kamp.modstanderScore }}</span></span>
+            <span class="tidspunkt">{{ kamp.tidspunkt }}</span>
+          </div>
         </li>
       </ul>
 
@@ -183,9 +186,12 @@ onMounted(async () => {
 
 .linje {
   font-size: 0.9rem;
+  font-weight: 600;
 }
 .tidspunkt {
-  opacity: 0.7;
+  opacity: 0.65;
+  font-weight: 600;
+  font-size: 0.7rem;
 }
 .score {
   font-weight: 700;
@@ -197,5 +203,11 @@ onMounted(async () => {
 .modstanderScore {
   font-weight: 700;
   color: var(--color-loser);
+}
+.data {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-left: 0.2vw;
 }
 </style>
