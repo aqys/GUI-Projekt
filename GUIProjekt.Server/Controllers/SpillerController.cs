@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 
 [ApiController]
-[Route("api/spillere")]
+[Route("api/v1/spillere")]
 public class SpillerController : ControllerBase
 {
     private readonly IConfiguration _configuration;

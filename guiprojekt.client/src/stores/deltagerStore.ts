@@ -31,7 +31,7 @@ export const useDeltagerStore = defineStore('deltagere', () => {
             error.value = null
 
             try {
-                const response = await fetch('/api/spillere', { signal: options.signal })
+                const response = await fetch('/api/v1/spillere', { signal: options.signal })
 
                 if (!response.ok) {
                     const errorText = await response.text()
@@ -87,7 +87,7 @@ export const useDeltagerStore = defineStore('deltagere', () => {
             return
         }
 
-        await fetch('/api/spillere', {
+        await fetch('/api/v1/spillere', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: 0, navn: trimmed }),

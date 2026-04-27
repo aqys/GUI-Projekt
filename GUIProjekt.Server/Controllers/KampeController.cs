@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 
 [ApiController]
-[Route("api/kampe")]
+[Route("api/v1/kampe")]
 public class KampeController : ControllerBase
 {
     private readonly IConfiguration _configuration;

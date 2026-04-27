@@ -31,7 +31,7 @@ export const useKampStore = defineStore('kampe', () => {
             error.value = null
 
             try {
-                const response = await fetch('/api/kampe', { signal: options.signal })
+                const response = await fetch('/api/v1/kampe', { signal: options.signal })
 
                 if (!response.ok) {
                     const errorText = await response.text()
@@ -74,7 +74,7 @@ export const useKampStore = defineStore('kampe', () => {
     }
 
     async function addKamp(kamp: Omit<Kamp, 'id'>) {
-        await fetch('/api/kampe', {
+        await fetch('/api/v1/kampe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(kamp),
