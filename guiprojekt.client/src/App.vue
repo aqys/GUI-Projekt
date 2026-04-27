@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import IconLayoutDashboard from '@tabler/icons-vue/dist/esm/icons/IconLayoutDashboard.mjs'
 import IconLayoutDashboardFilled from '@tabler/icons-vue/dist/esm/icons/IconLayoutDashboardFilled.mjs'
@@ -12,6 +13,12 @@ import IconChartPie2 from '@tabler/icons-vue/dist/esm/icons/IconChartPie2.mjs'
 import IconChartPie2Filled from '@tabler/icons-vue/dist/esm/icons/IconChartPie2Filled.mjs'
 
 const route = useRoute()
+const navLinksRef = ref<HTMLElement | null>(null)
+const indicatorStyle = ref({
+  width: '0px',
+  transform: 'translateX(0px)',
+  opacity: '0',
+})
 
 function isRouteActive(path: string): boolean {
   if (path === '/dashboard') {
@@ -20,13 +27,59 @@ function isRouteActive(path: string): boolean {
 
   return route.path === path
 }
+
+function updateActiveIndicator(): void {
+  const nav = navLinksRef.value
+  if (!nav) {
+    return
+  }
+
+  const activeLink = nav.querySelector('a.router-link-active') as HTMLElement | null
+  if (!activeLink) {
+    indicatorStyle.value = {
+      width: '0px',
+      transform: 'translateX(0px)',
+      opacity: '0',
+    }
+    return
+  }
+
+  const navRect = nav.getBoundingClientRect()
+  const linkRect = activeLink.getBoundingClientRect()
+  const indicatorWidth = Math.max(linkRect.width - 20, 0)
+
+  indicatorStyle.value = {
+    width: `${indicatorWidth}px`,
+    transform: `translateX(${linkRect.left - navRect.left + 10}px)`,
+    opacity: '1',
+  }
+}
+
+watch(
+  () => route.path,
+  async () => {
+    await nextTick()
+    updateActiveIndicator()
+  },
+  { flush: 'post' },
+)
+
+onMounted(async () => {
+  await nextTick()
+  updateActiveIndicator()
+  window.addEventListener('resize', updateActiveIndicator)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateActiveIndicator)
+})
 </script>
 
 <template>
   <div class="app-shell">
     <header class="topbar">
       <h1 class="brand"><a href="/" class="back">Turneringsmanager</a></h1>
-      <nav class="nav-links">
+      <nav ref="navLinksRef" class="nav-links">
         <RouterLink to="/dashboard" class="nav-item">
           <IconLayoutDashboardFilled v-if="isRouteActive('/dashboard')" class="nav-icon" />
           <IconLayoutDashboard v-else class="nav-icon" />
@@ -56,6 +109,8 @@ function isRouteActive(path: string): boolean {
           <IconChartPie2 v-else class="nav-icon" />
           Stats
         </RouterLink>
+
+        <span class="nav-active-indicator" :style="indicatorStyle" aria-hidden="true"></span>
       </nav>
     </header>
 
@@ -90,6 +145,7 @@ function isRouteActive(path: string): boolean {
 }
 
 .nav-links {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -106,6 +162,7 @@ function isRouteActive(path: string): boolean {
   border-radius: 0.45rem;
   padding: 0.45rem 0.7rem;
   border: 1px solid transparent;
+  position: relative;
   transition: background-color 0.16s ease, border-color 0.16s ease;
 }
 
@@ -114,42 +171,40 @@ function isRouteActive(path: string): boolean {
 }
 
 .nav-links a.router-link-active {
-  background: var(--color-primary);
-  border-color: var(--color-primary-hover);
-}
-
-.view-wrapper {
-  padding: 0.85rem;
-}
-.back {
-  color: white;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-.back:hover {
-  color: #60aaff;
-}
-
-.nav-links a.router-link-active {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-  position: relative;
 }
-.nav-links a.router-link-active::after {
-  content: "";
+
+.nav-active-indicator {
   position: absolute;
-  left: 0.6rem;
-  right: 0.6rem;
   bottom: 0.05rem;
   height: 2px;
+  width: 0;
   border-radius: 99px;
   background: var(--color-primary-hover);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), width 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  pointer-events: none;
 }
 
 .nav-icon {
   width: 1.15rem;
   height: 1.15rem;
   flex-shrink: 0;
+}
+
+.view-wrapper {
+  padding: 0.85rem;
+}
+
+.back {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.back:hover {
+  color: #60aaff;
 }
 </style>
