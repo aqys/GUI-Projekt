@@ -146,7 +146,7 @@
   }
 
   .felt-search input {
-    min-height: 2.15rem;
+    min-height: 2.5rem;
     padding: 0.35rem 0.6rem 0.35rem 2rem;
     font-size: 0.86rem;
   }
