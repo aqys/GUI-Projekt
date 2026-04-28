@@ -374,7 +374,7 @@ onMounted(async () => {
       outline: none;
       border-color: var(--color-primary);
       box-shadow: 0 0 0 3px rgba(22, 128, 249, 0.22);
-      background-color: #dd3b3b;
+      background-color: var(--color-card-hover);
     }
 
     .handlinger {
