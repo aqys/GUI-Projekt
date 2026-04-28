@@ -29,4 +29,5 @@ const MatchList = defineAsyncComponent(() => import('@/components/MatchList.vue'
   grid-template-columns: 1fr;
   gap: 1rem;
 }
+
 </style>

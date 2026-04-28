@@ -345,4 +345,11 @@ onMounted(() => {
     .fade-leave-to {
       opacity: 0;
     }
+
+    @media (max-width: 640px) {
+      .kampe {
+        gap: 0.85rem;
+        margin-top: 1rem;
+      }
+    }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <h2>{{ props.title }}</h2>
-  <div class="soeg-wrapper" :class="{ 'er-aktiv': soegeTekst.trim().length > 0 }">
+  <div v-if="!isMobile" class="soeg-wrapper" :class="{ 'er-aktiv': soegeTekst.trim().length > 0 }">
     <label class="soeg-label" for="deltager-soeg">Søg deltagere</label>
     <div class="soeg-felt">
       <span class="soeg-ikon" aria-hidden="true">
@@ -23,23 +23,34 @@
     <thead>
       <tr>
         <th>
-          <button class="sort-knap" type="button" @click="skiftSortering('navn')">
-            Navn
-            <span class="sort-ikon">{{ hentSortSymbol('navn') }}</span>
-          </button>
-        </th>
-        <th>
-          <button class="sort-knap" type="button" @click="skiftSortering('points')">
-            Points
-            <span class="sort-ikon">{{ hentSortSymbol('points') }}</span>
-          </button>
-        </th>
-        <th>
-          <button class="sort-knap" type="button" @click="skiftSortering('win')">
-            Win%
-            <span class="sort-ikon">{{ hentSortSymbol('win') }}</span>
-          </button>
-        </th>
+            <template v-if="!isMobile">
+              <button class="sort-knap" type="button" @click="skiftSortering('navn')">
+                Navn
+                <span class="sort-ikon">{{ hentSortSymbol('navn') }}</span>
+              </button>
+            </template>
+            <template v-else>Navn</template>
+          </th>
+
+          <th>
+            <template v-if="!isMobile">
+              <button class="sort-knap" type="button" @click="skiftSortering('points')">
+                Points
+                <span class="sort-ikon">{{ hentSortSymbol('points') }}</span>
+              </button>
+            </template>
+            <template v-else>Points</template>
+          </th>
+
+          <th>
+            <template v-if="!isMobile">
+              <button class="sort-knap" type="button" @click="skiftSortering('win')">
+                Win%
+                <span class="sort-ikon">{{ hentSortSymbol('win') }}</span>
+              </button>
+            </template>
+            <template v-else>Win%</template>
+          </th>
         <th v-if="props.allowManage">Handlinger</th>
       </tr>
     </thead>
@@ -99,10 +110,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, onUnmounted } from 'vue'
 import { useDeltagerStore } from '@/stores/deltagerStore'
 import { useKampStore } from '@/stores/kampStore'
 import { useRanklisteStats } from '@/composables/useRanklisteStats'
+
+const isMobile = ref(false)
+
+function checkScreen() {
+  isMobile.value = window.innerWidth <= 640
+}
+
+onMounted(() => {
+  checkScreen()
+  window.addEventListener('resize', checkScreen)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreen)
+})
 
 const props = withDefaults(
   defineProps<{
@@ -150,21 +176,27 @@ const filtreretRankliste = computed(() => {
 
 const sorteretRankliste = computed(() => {
   const liste = [...filtreretRankliste.value]
-  const retning = aktivSorteringsRetning.value === 'asc' ? 1 : -1
 
-  liste.sort((venstre, hoejre) => {
-    if (aktivSorteringsKolonne.value === 'navn') {
-      return venstre.navn.localeCompare(hoejre.navn, 'da') * retning
+  const kolonne = isMobile.value ? 'points' : aktivSorteringsKolonne.value
+  const retning = isMobile.value
+    ? -1
+    : aktivSorteringsRetning.value === 'asc'
+    ? 1
+    : -1
+
+  liste.sort((a, b) => {
+    if (kolonne === 'navn') {
+      return a.navn.localeCompare(b.navn, 'da') * retning
     }
 
-    const venstreVaerdi = aktivSorteringsKolonne.value === 'points' ? venstre.points : venstre.win
-    const hoejreVaerdi = aktivSorteringsKolonne.value === 'points' ? hoejre.points : hoejre.win
+    const v = kolonne === 'points' ? a.points : a.win
+    const h = kolonne === 'points' ? b.points : b.win
 
-    if (venstreVaerdi === hoejreVaerdi) {
-      return venstre.navn.localeCompare(hoejre.navn, 'da')
+    if (v === h) {
+      return a.navn.localeCompare(b.navn, 'da')
     }
 
-    return (venstreVaerdi - hoejreVaerdi) * retning
+    return (v - h) * retning
   })
 
   return liste
@@ -458,4 +490,33 @@ onMounted(async () => {
     .fade-leave-to {
       opacity: 0;
     }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      min-width: 420px;
+    }
+
+    @media (max-width: 640px) {
+      th, td {
+        padding: 0.6rem 0.4rem;
+        font-size: 1rem;
+      }
+
+      h2 {
+        font-size: 1.1rem;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 0;
+        margin-top: 1rem;
+      }
+  }
 </style>

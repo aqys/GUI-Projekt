@@ -242,4 +242,47 @@ onBeforeUnmount(() => {
 .back:hover {
   color: #60aaff;
 }
+
+@media (max-width: 640px) {
+  .topbar {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: space-around;
+
+    background: #111;
+    border-top: 1px solid #60aaffac;
+    padding: 0.4rem 0;
+    z-index: 1000;
+
+    width: 100%;
+  }
+
+  .nav-links a {
+    flex-direction: column;
+    font-size: 0.7rem;
+    gap: 0.2rem;
+    padding-bottom: calc(0.4rem + env(safe-area-inset-bottom));
+  }
+
+  .view-wrapper {
+    padding-top: 0.75rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .nav-active-indicator {
+    display: none;
+  }
+}
 </style>

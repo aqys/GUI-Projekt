@@ -12,4 +12,10 @@
         box-shadow: 2px 6px 8px 0 rgba(0, 0, 0, .375);
         border: 1px solid rgba(229, 231, 235, 0.175);
     }
+
+    @media (max-width: 640px) {
+        .panel {
+            width: 100%;
+        }
+    }
 </style>

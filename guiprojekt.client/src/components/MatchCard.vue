@@ -77,4 +77,31 @@
     .fare:hover {
         background-color: var(--color-error-hover) !important;
     }
+
+    @media (max-width: 640px) {
+        .match-card {
+            padding: 1.25vh 1.75vw;
+        }
+        .match-card {
+            align-items: center;
+            text-align: center;
+            gap: 0.3rem;
+        }
+
+        .resultat {
+            order: 1;
+            font-size: 1rem;
+        }
+
+        .tid {
+            order: 2;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .handlinger {
+            width: 100%;
+            justify-content: center;
+        }
+    }
 </style>
