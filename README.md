@@ -52,7 +52,7 @@ Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminT
 - [x] CRUD
 - [ ] Responsivt UI
 - [x] Input validation og error handling
-- [ ] Code splitting
+- [x] Code splitting
 - [ ] Unit tests?
 - [ ] Arkitektur diagram
 - [ ] Auth (maybe)
