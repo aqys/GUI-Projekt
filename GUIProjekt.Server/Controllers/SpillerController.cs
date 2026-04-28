@@ -46,9 +46,11 @@ public class SpillerController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] Spiller spiller)
     {
-        if (string.IsNullOrWhiteSpace(spiller.navn))
+        var trimmedNavn = spiller.navn?.Trim() ?? "";
+        
+        if (string.IsNullOrEmpty(trimmedNavn))
         {
-            return BadRequest("Navn må ikke være tomt");
+            return BadRequest(new { error = "Navn må ikke være tomt" });
         }
 
         var connectionString = _configuration.GetConnectionString("MySql");
@@ -60,19 +62,38 @@ public class SpillerController : ControllerBase
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
 
-        using var command = new MySqlCommand("INSERT INTO spillere (navn) VALUES (@navn)", connection);
-        command.Parameters.AddWithValue("@navn", spiller.navn);
+        try
+        {
+            using (var checkCommand = new MySqlCommand("SELECT COUNT(*) FROM spillere WHERE LOWER(navn) = LOWER(@navn)", connection))
+            {
+                checkCommand.Parameters.AddWithValue("@navn", trimmedNavn);
+                var count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+                if (count > 0)
+                {
+                    return Conflict(new { error = $"En spiller med navn '{trimmedNavn}' findes allerede" });
+                }
+            }
 
-        await command.ExecuteNonQueryAsync();
-        return Ok(new { success = true });
+            using var command = new MySqlCommand("INSERT INTO spillere (navn) VALUES (@navn)", connection);
+            command.Parameters.AddWithValue("@navn", trimmedNavn);
+
+            await command.ExecuteNonQueryAsync();
+            return Ok(new { success = true, message = "Spilleren blev tilføjet successfuldt" });
+        }
+        catch (Exception ex)
+        {
+            return Problem($"Fejl ved oprettelse af spiller: {ex.Message}", statusCode: 500);
+        }
     }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Put(int id, [FromBody] Spiller spiller)
     {
-        if (string.IsNullOrWhiteSpace(spiller.navn))
+        var trimmedNavn = spiller.navn?.Trim() ?? "";
+        
+        if (string.IsNullOrEmpty(trimmedNavn))
         {
-            return BadRequest("Navn må ikke være tomt");
+            return BadRequest(new { error = "Navn må ikke være tomt" });
         }
 
         var connectionString = _configuration.GetConnectionString("MySql");
@@ -84,17 +105,35 @@ public class SpillerController : ControllerBase
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
 
-        using var command = new MySqlCommand("UPDATE spillere SET navn = @navn WHERE id = @id", connection);
-        command.Parameters.AddWithValue("@id", id);
-        command.Parameters.AddWithValue("@navn", spiller.navn.Trim());
-
-        var rowsAffected = await command.ExecuteNonQueryAsync();
-        if (rowsAffected == 0)
+        try
         {
-            return NotFound($"Spiller med id {id} findes ikke");
-        }
+            using (var checkCommand = new MySqlCommand("SELECT COUNT(*) FROM spillere WHERE LOWER(navn) = LOWER(@navn) AND id != @id", connection))
+            {
+                checkCommand.Parameters.AddWithValue("@navn", trimmedNavn);
+                checkCommand.Parameters.AddWithValue("@id", id);
+                var count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+                if (count > 0)
+                {
+                    return Conflict(new { error = $"En anden spiller med navn '{trimmedNavn}' findes allerede" });
+                }
+            }
 
-        return Ok(new { success = true });
+            using var command = new MySqlCommand("UPDATE spillere SET navn = @navn WHERE id = @id", connection);
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@navn", trimmedNavn);
+
+            var rowsAffected = await command.ExecuteNonQueryAsync();
+            if (rowsAffected == 0)
+            {
+                return NotFound(new { error = $"Spiller med id {id} findes ikke" });
+            }
+
+            return Ok(new { success = true, message = "Spilleren blev opdateret successfuldt" });
+        }
+        catch (Exception ex)
+        {
+            return Problem($"Fejl ved opdatering af spiller: {ex.Message}", statusCode: 500);
+        }
     }
 
     [HttpDelete("{id:int}")]

@@ -69,6 +69,21 @@ public class KampeController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] RegisterKampDto input)
     {
+        if (input.vinder.Equals(input.taber, StringComparison.OrdinalIgnoreCase))
+        {
+            return BadRequest(new { error = "Vinder og taber må ikke være samme spiller" });
+        }
+
+        if (input.vinderScore == input.taberScore)
+        {
+            return BadRequest(new { error = "Point må ikke være lige" });
+        }
+
+        if (input.vinderScore < input.taberScore)
+        {
+            return BadRequest(new { error = "Vinder score skal være højere end taber score" });
+        }
+
         var connectionString = _configuration.GetConnectionString("MySql");
         if (string.IsNullOrWhiteSpace(connectionString))
         {
@@ -83,9 +98,14 @@ public class KampeController : ControllerBase
         {
             var (vinderId, taberId) = await ResolveSpillerIdsAsync(connection, input.vinder, input.taber);
 
-            if (vinderId == null || taberId == null)
+            if (vinderId == null)
             {
-                return BadRequest("Kunne ikke finde vinderen eller taberen i databasen");
+                return BadRequest(new { error = $"'{input.vinder}' findes ikke i databasen" });
+            }
+
+            if (taberId == null)
+            {
+                return BadRequest(new { error = $"'{input.taber}' findes ikke i databasen" });
             }
 
             var tidspunkt = ParseTidspunkt(input.tidspunkt);
@@ -98,7 +118,7 @@ public class KampeController : ControllerBase
             command.Parameters.AddWithValue("@tidspunkt", tidspunkt);
 
             await command.ExecuteNonQueryAsync();
-            return Ok(new { success = true });
+            return Ok(new { success = true, message = "Kampen blev registreret successfuldt" });
         }
         catch (Exception ex)
         {

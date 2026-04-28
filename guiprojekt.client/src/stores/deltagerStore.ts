@@ -21,6 +21,33 @@ export const useDeltagerStore = defineStore('deltagere', () => {
             return
         }
 
+        try {
+            const errorData = await response.json()
+            
+            if (errorData.errors && typeof errorData.errors === 'object') {
+                const errorMessages = Object.entries(errorData.errors)
+                    .flatMap(([messages]: [string, any]) => {
+                        if (Array.isArray(messages)) {
+                            return messages
+                        }
+                        return [messages]
+                    })
+                throw new Error(errorMessages.join(', '))
+            }
+            
+            if (errorData.error) {
+                throw new Error(errorData.error)
+            }
+            
+            if (errorData.detail) {
+                throw new Error(errorData.detail)
+            }
+        } catch (e) {
+            if (e instanceof Error && e.message !== fallbackMessage) {
+                throw e
+            }
+        }
+
         const message = (await response.text()) || fallbackMessage
         throw new Error(message)
     }
