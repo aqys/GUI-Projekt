@@ -4,6 +4,7 @@
 
 - Node.js - 24 LTS
 - .NET - 10.0
+- MySQL - 15.1
 
 ## For at køre projektet
 
