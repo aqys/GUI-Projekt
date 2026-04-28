@@ -186,7 +186,7 @@ async function registrer() {
 
 <style scoped>
     .form-wrapper {
-        background-color: #202120;
+        background-color: var(--color-card-alt);
         border-radius: var(--border-radius);
         padding: 1vw;
         display: flex;

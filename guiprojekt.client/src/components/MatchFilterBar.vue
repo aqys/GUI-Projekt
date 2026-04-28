@@ -85,7 +85,7 @@
     gap: 0.65rem;
     margin-bottom: 1rem;
     padding: 0.6rem;
-    border-radius: 0.65rem;
+    border-radius: 0.35rem;
     background:
       linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
       var(--color-card-alt);
@@ -133,7 +133,7 @@
     min-height: 2.5rem;
     background-color: var(--color-card);
     border: 1px solid rgba(229, 231, 235, 0.22);
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     color: var(--color-text);
     padding: 0.5rem 0.7rem;
     font-family: var(--font-family);

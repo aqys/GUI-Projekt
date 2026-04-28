@@ -354,7 +354,7 @@ onMounted(async () => {
     .soeg-ikon svg {
       width: 100%;
       height: 100%;
-      fill: currentColor;
+      fill: var(--color-text);
     }
 
     .soeg-input {
@@ -374,7 +374,7 @@ onMounted(async () => {
       outline: none;
       border-color: var(--color-primary);
       box-shadow: 0 0 0 3px rgba(22, 128, 249, 0.22);
-      background-color: #1f232b;
+      background-color: #dd3b3b;
     }
 
     .handlinger {
