@@ -73,7 +73,7 @@ export function parseServerError(error: unknown): string {
 
         if (errorObj.errors && typeof errorObj.errors === 'object') {
             const messages = Object.entries(errorObj.errors)
-                .flatMap(([field, msgs]: [string, any]) => {
+                .flatMap(([, msgs]: [string, any]) => {
                     if (Array.isArray(msgs)) {
                         return msgs
                     }

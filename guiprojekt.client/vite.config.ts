@@ -45,6 +45,37 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./src', import.meta.url))
         }
     },
+    build: {
+        target: 'esnext',
+        cssCodeSplit: true,
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    if (!id.includes('node_modules')) {
+                        return undefined;
+                    }
+
+                    if (id.includes('vue-router')) {
+                        return 'vendor-vue-router';
+                    }
+
+                    if (id.includes('pinia')) {
+                        return 'vendor-pinia';
+                    }
+
+                    if (id.includes('/vue/')) {
+                        return 'vendor-vue-core';
+                    }
+
+                    if (id.includes('@tabler/icons-vue')) {
+                        return 'vendor-icons';
+                    }
+
+                    return 'vendor-misc';
+                },
+            },
+        },
+    },
     server: {
         proxy: {
             '^/api/.*': {
