@@ -97,13 +97,13 @@
   }
 
   .felt-search {
-    width: 12rem;
+    width: 8rem !important;
     transition: width 0.2s ease;
   }
 
   .felt-search:focus-within,
   .felt-search.er-aktiv {
-    width: 20rem;
+    width: 12rem !important;
   }
 
   .search-shell {
@@ -114,9 +114,8 @@
     position: absolute;
     left: 0.58rem;
     top: 50%;
-    width: 1rem;
-    height: 1rem;
-    color: rgba(248, 248, 248, 0.65);
+    width: 1.25rem;
+    height: 1.25rem;
     transform: translateY(-50%);
     pointer-events: none;
   }
@@ -124,7 +123,7 @@
   .search-ikon svg {
     width: 100%;
     height: 100%;
-    fill: currentColor;
+    fill: #fffafaa1;
   }
 
   input,
@@ -192,17 +191,5 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-  }
-
-  @media (max-width: 920px) {
-    .filterbar {
-      grid-template-columns: 1fr;
-    }
-
-    .felt-search,
-    .felt-search:focus-within,
-    .felt-search.er-aktiv {
-      width: 100%;
-    }
   }
 </style>

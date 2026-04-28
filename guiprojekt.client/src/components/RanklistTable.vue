@@ -283,17 +283,17 @@ onMounted(async () => {
 
     tbody tr:hover {
         cursor: pointer;
-        background-color: var(--color-card-hover) !important;
+        background-color: var(--color-table-hover) !important;
     }
 
     tbody tr:nth-child(even) {
-        background-color: var(--color-card-alt);
+        background-color: var(--color-table-alt);
     }
     tbody tr:nth-child(odd) {
-        background-color: var(--color-card);
+        background-color: var(--color-table);
     }
     thead {
-        background-color: var(--color-card-bar);
+        background-color: var(--color-table-bar);
     }
     thead th {
         border: 1px solid rgba(229, 231, 235, 0.25);
@@ -327,7 +327,7 @@ onMounted(async () => {
 
     .soeg-wrapper:focus-within,
     .soeg-wrapper.er-aktiv {
-      width: min(100%, 22rem);
+      width: min(100%, 16rem);
     }
 
     .soeg-label {
@@ -344,9 +344,8 @@ onMounted(async () => {
       position: absolute;
       left: 0.58rem;
       top: 50%;
-      width: 1rem;
-      height: 1rem;
-      color: rgba(248, 248, 248, 0.65);
+      width: 1.25rem;
+      height: 1.25rem;
       transform: translateY(-50%);
       pointer-events: none;
     }
@@ -354,11 +353,11 @@ onMounted(async () => {
     .soeg-ikon svg {
       width: 100%;
       height: 100%;
-      fill: var(--color-text);
+      fill: #fffafaa1;
     }
 
     .soeg-input {
-      width: 100%;
+      width: 70%;
       min-height: 2.05rem;
       padding: 0.35rem 0.6rem 0.35rem 2rem;
       border-radius: var(--border-radius);

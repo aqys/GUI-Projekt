@@ -41,7 +41,7 @@
         padding: 1vh 0.75vw;
         display: flex;
         flex-direction: column;
-        border: 1px solid rgba(229, 231, 235, 0.15);
+        border: 1px solid rgba(229, 231, 235, 0.3);
         gap: 0.2vh;
     }
 

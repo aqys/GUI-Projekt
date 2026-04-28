@@ -3,13 +3,18 @@
   --color-primary-hover: #5ea9ff;
   --color-secondary: #22572c;
 
-  --color-bg: #324d37;
+  --color-bg: #292624;
   --color-card: #212121;
   --color-card-alt: #252525;
   --color-card-hover: #333333;
   --color-card-bar: #2a2a2a;
   --color-border: #dee2e6;
   --color-text: #f8f8f8;
+
+  --color-table-bar: #2c2c2c;
+  --color-table: #222222;
+  --color-table-alt: #282828;
+  --color-table-hover: #333333;
 
   --color-error: #f02929;
   --color-error-hover: #ff5959;
@@ -38,7 +43,7 @@ body {
   font-size:  var(--font-body);
   font-weight: 400;
   color: var(--color-text);
-  background-color: rgb(40, 45, 46);
+  background-color: var(--color-bg);
   scrollbar-gutter: stable;
 }
 
