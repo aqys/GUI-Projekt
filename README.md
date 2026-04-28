@@ -51,7 +51,7 @@ Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminT
 - [x] Tilføj ikoner
 - [x] CRUD
 - [ ] Responsivt UI
-- [ ] Input validation og error handling
+- [x] Input validation og error handling
 - [ ] Code splitting
 - [ ] Unit tests?
 - [ ] Arkitektur diagram
