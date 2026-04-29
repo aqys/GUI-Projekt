@@ -297,6 +297,8 @@ onMounted(() => {
       padding: 1rem;
       display: grid;
       gap: 0.85rem;
+      overflow-y: auto;
+      max-height: 90vh;
     }
 
     .modal h3 {
@@ -348,8 +350,29 @@ onMounted(() => {
 
     @media (max-width: 640px) {
       .kampe {
-        gap: 0.85rem;
+        gap: 0.75rem;
         margin-top: 1rem;
+      }
+      .modal {
+          max-width: 100%;
+          border-radius: 0.75rem;
+      }
+      .modal {
+        border-radius: 1rem 1rem 0 0;
+        width: 100%;
+        max-height: 85vh;
+      }
+      .felt-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal-knapper {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+      .modal-knapper button {
+        width: 100%;
+        height: 2rem;
       }
     }
 </style>

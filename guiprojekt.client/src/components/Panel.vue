@@ -16,6 +16,7 @@
     @media (max-width: 640px) {
         .panel {
             width: 100%;
+            padding: .5rem;
         }
     }
 </style>

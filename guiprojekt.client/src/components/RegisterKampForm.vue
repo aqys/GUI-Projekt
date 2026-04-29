@@ -188,10 +188,10 @@ async function registrer() {
     .form-wrapper {
         background-color: var(--color-card-alt);
         border-radius: var(--border-radius);
-        padding: 1vw;
+        padding: 1rem;
         display: flex;
         flex-direction: column;
-        gap: 1vh;
+        gap: .75rem;
     }
 
     .form-grid {
@@ -203,7 +203,7 @@ async function registrer() {
     .felt {
         display: flex;
         flex-direction: column;
-        gap: 1vh;
+        gap: .35rem;
     }
 
     label {
@@ -221,6 +221,8 @@ async function registrer() {
         background-color: var(--color-card);
         color: var(--color-text);
         transition: border-color 0.2s;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     select:focus,
@@ -268,5 +270,16 @@ async function registrer() {
     .registrer:disabled {
         opacity: 0.6;
         cursor: not-allowed;
+    }
+
+    @media (max-width: 640px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .registrer {
+            width: 100%;
+            align-self: stretch;
+        }
     }
 </style>

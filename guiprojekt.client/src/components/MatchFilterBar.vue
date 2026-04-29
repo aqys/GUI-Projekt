@@ -190,4 +190,29 @@
     white-space: nowrap;
     border: 0;
   }
+
+  @media (max-width: 640px) {
+    .filterbar > *:nth-child(2),
+    .filterbar > *:nth-child(3) {
+      display: none;
+    }
+    .felt-search {
+      width: 100% !important;
+    }
+    .felt-search:focus-within,
+    .felt-search.er-aktiv {
+      width: 100% !important;
+    }
+    .reset-knap {
+      padding: 0.5rem;
+      width: 5.5rem;
+      font-size: 0.86rem;
+    }
+    .filterbar {
+      padding: 0.5rem;
+      gap: 1rem;
+      width: 100%;
+
+    }
+  }
 </style>

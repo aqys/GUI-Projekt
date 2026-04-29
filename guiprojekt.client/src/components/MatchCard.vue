@@ -102,6 +102,12 @@
         .handlinger {
             width: 100%;
             justify-content: center;
+            gap: 1rem;
+        }
+        .lille-knap {
+            width: 6rem;
+            padding: 0.5rem;
+            font-size: 0.86rem;
         }
     }
 </style>
