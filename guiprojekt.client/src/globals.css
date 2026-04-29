@@ -16,6 +16,8 @@
   --color-table-alt: #282828;
   --color-table-hover: #333333;
 
+  --color-placeholder: #f8f8f8a1;
+
   --color-error: #f02929;
   --color-error-hover: #ff5959;
 
@@ -49,6 +51,8 @@
   --color-card-bar: #f0f3f6;
   --color-border: #1d1d1d80;
   --color-text: #0b1220;
+
+  --color-placeholder: #0b1220a1;
 
   --color-table-bar: #f1f5f9;
   --color-table: #ffffff;

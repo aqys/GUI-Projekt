@@ -98,16 +98,16 @@
     width: 8rem !important;
     transition: width 0.2s ease;
   }
-
+  
   .felt-search:focus-within,
   .felt-search.er-aktiv {
     width: 12rem !important;
   }
-
+  
   .search-shell {
     position: relative;
   }
-
+  
   .search-ikon {
     position: absolute;
     left: 0.58rem;
@@ -117,13 +117,14 @@
     transform: translateY(-50%);
     pointer-events: none;
   }
-
+  
   .search-ikon svg {
     width: 100%;
     height: 100%;
-    fill: #fffafaa1;
+    fill: var(--color-icon);
   }
 
+  
   input,
   select {
     width: 100%;
@@ -139,7 +140,7 @@
   }
 
   input::placeholder {
-    color: rgba(248, 248, 248, 0.58);
+    color: var(--color-placeholder);
   }
 
   .felt-search input {
@@ -166,7 +167,7 @@
     outline: none;
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(22, 128, 249, 0.22);
-    background-color: #1f232b;
+    background-color: var(--color-card-hover);
   }
 
   .reset-knap {
