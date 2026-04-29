@@ -87,7 +87,7 @@
     padding: 0.6rem;
     border-radius: 0.35rem;
     background: var(--color-card);
-    border: 1px solid rgba(229, 231, 235, 0.18);
+    border: 1px solid var(--color-border);
   }
 
   .felt {
@@ -129,7 +129,7 @@
     width: 100%;
     min-height: 2.5rem;
     background-color: var(--color-card);
-    border: 1px solid rgba(229, 231, 235, 0.22);
+    border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     color: var(--color-text);
     padding: 0.5rem 0.7rem;

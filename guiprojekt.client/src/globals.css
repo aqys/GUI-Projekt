@@ -8,7 +8,7 @@
   --color-card-alt: #252525;
   --color-card-hover: #333333;
   --color-card-bar: #2a2a2a;
-  --color-border: #dee2e6;
+  --color-border: #dee2e663;
   --color-text: #f8f8f8;
 
   --color-table-bar: #2c2c2c;
@@ -23,6 +23,10 @@
   --color-loser: #EF5252;
   --color-me: #2ba3f3;
 
+  --color-icon: #f8f8f8;
+
+  --panel: #161616;
+
   --font-family: 'Segoe UI', 'Open Sans', sans-serif;
   --font-h1: 1.8em;
   --font-h2: 1.5em;
@@ -30,6 +34,37 @@
   --font-button: 0.8em;
 
   --border-radius: 0.15rem;
+}
+
+.theme-light {
+  --color-primary: #0b5ed7;
+  --color-primary-hover: #5ea9ff;
+  --color-secondary: #2a6f3a;
+
+  --color-bg: #F0F1F2;
+  --color-bar: #e8e9f0;
+  --color-card: #eceef1;
+  --color-card-alt: #f3f6f9;
+  --color-card-hover: #e6eef8;
+  --color-card-bar: #f0f3f6;
+  --color-border: #1d1d1d80;
+  --color-text: #0b1220;
+
+  --color-table-bar: #f1f5f9;
+  --color-table: #ffffff;
+  --color-table-alt: #f8fafc;
+  --color-table-hover: #e8eef7;
+
+  --color-icon: #0b1220;
+
+  --color-error: #c32727;
+  --color-error-hover: #e05252;
+
+  --color-winner: #0b9b2b;
+  --color-loser: #d22d2d;
+  --color-me: #1a73e8;
+
+  --panel: #F8F8F8;
 }
 
 * {

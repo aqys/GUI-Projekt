@@ -136,7 +136,7 @@ async function add() {
         display: flex;
         flex-direction: column;
         gap: 2vh;
-        border: 1px solid rgba(229, 231, 235, 0.25);
+        border: 1px solid var(--color-border);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
 
@@ -159,7 +159,7 @@ async function add() {
 
     input {
         padding: 1.25vh .25vw;
-        border: 0.1vw solid rgba(229, 231, 235, 0.15);
+        border: 0.1vw solid var(--color-border);
         border-radius: var(--border-radius);
         font-size: var(--font-body);
         font-family: var(--font-family);

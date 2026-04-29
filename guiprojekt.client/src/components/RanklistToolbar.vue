@@ -50,7 +50,7 @@ onMounted(async () => {
 
 .chip {
   background: var(--color-card);
-  border: 1px solid rgba(229, 231, 235, 0.16);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   padding: 0.7rem;
   display: flex;

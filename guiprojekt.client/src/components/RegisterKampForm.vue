@@ -214,7 +214,7 @@ async function registrer() {
     select,
     input {
         padding: 1vh 0.4vw;
-        border: 0.1vw solid rgba(229, 231, 235, 0.35);
+        border: 0.1vw solid var(--color-border);
         border-radius: var(--border-radius);
         font-size: var(--font-size-body);
         font-family: var(--font-family);

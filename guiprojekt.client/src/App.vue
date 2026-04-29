@@ -11,6 +11,8 @@ import IconUserFilled from '@tabler/icons-vue/dist/esm/icons/IconUserFilled.mjs'
 import IconUser from '@tabler/icons-vue/dist/esm/icons/IconUser.mjs'
 import IconChartPie2 from '@tabler/icons-vue/dist/esm/icons/IconChartPie2.mjs'
 import IconChartPie2Filled from '@tabler/icons-vue/dist/esm/icons/IconChartPie2Filled.mjs'
+import IconMoon from '@tabler/icons-vue/dist/esm/icons/IconMoon.mjs'
+import IconSun from '@tabler/icons-vue/dist/esm/icons/IconSun.mjs'
 import { useDeltagerStore } from '@/stores/deltagerStore'
 import { useKampStore } from '@/stores/kampStore'
 
@@ -25,6 +27,21 @@ const indicatorStyle = ref({
   transform: 'translateX(0px)',
   opacity: '0',
 })
+
+const theme = ref<string>(localStorage.getItem('theme') === 'light' ? 'light' : 'dark')
+
+function applyTheme(t: string): void {
+  const root = document.documentElement
+  if (t === 'light') {
+    root.classList.add('theme-light')
+  } else {
+    root.classList.remove('theme-light')
+  }
+  try {
+    localStorage.setItem('theme', t)
+  } catch (_e) {
+  }
+}
 
 async function refreshStores(force = false): Promise<void> {
   if (document.hidden) {
@@ -89,6 +106,7 @@ watch(
 
 onMounted(async () => {
   await nextTick()
+  applyTheme(theme.value)
   updateActiveIndicator()
   window.addEventListener('resize', updateActiveIndicator)
   document.addEventListener('visibilitychange', handleVisibilityChange)
@@ -108,12 +126,26 @@ onBeforeUnmount(() => {
     autoRefreshTimer = null
   }
 })
+
+watch(theme, (v) => applyTheme(v))
 </script>
 
 <template>
   <div class="app-shell">
     <header class="topbar">
-      <h1 class="brand"><a href="/" class="back">Turneringsmanager</a></h1>
+      <div class="brand-row">
+        <h1 class="brand"><a href="/" class="back">Turneringsmanager</a></h1>
+        <button
+          class="theme-toggle"
+          type="button"
+          :aria-label="theme === 'light' ? 'Skift til mørkt tema' : 'Skift til lyst tema'"
+          :aria-pressed="theme === 'light'"
+          @click="theme = theme === 'light' ? 'dark' : 'light'"
+        >
+          <IconSun v-if="theme === 'light'" class="theme-icon" />
+          <IconMoon v-else class="theme-icon" />
+        </button>
+      </div>
       <nav ref="navLinksRef" class="nav-links">
         <RouterLink to="/dashboard" class="nav-item">
           <IconLayoutDashboardFilled v-if="isRouteActive('/dashboard')" class="nav-icon" />
@@ -171,12 +203,20 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 1rem;
-  background: #111111;
-  border-bottom: 1px solid #60aaffac;
+  background: var(--color-bar);
+  border-bottom: 1px solid var(--color-primary-hover);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
 }
 
 .brand {
   font-size: 1.25rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links {
@@ -202,7 +242,7 @@ onBeforeUnmount(() => {
 }
 
 .nav-links a:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .nav-links a.router-link-active {
@@ -234,13 +274,42 @@ onBeforeUnmount(() => {
 }
 
 .back {
-  color: white;
+  color: var(--color-text);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .back:hover {
-  color: #60aaff;
+  color: var(--color-primary-hover);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--color-card-hover);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-primary-hover);
+  outline-offset: 2px;
+}
+
+.theme-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
 }
 
 @media (max-width: 640px) {
@@ -248,6 +317,11 @@ onBeforeUnmount(() => {
     position: relative;
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .brand-row {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .nav-links {
@@ -259,8 +333,8 @@ onBeforeUnmount(() => {
     display: flex;
     justify-content: space-around;
 
-    background: #111;
-    border-top: 1px solid #60aaffac;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-primary-hover);
     padding: 0.4rem 0;
     z-index: 1000;
 

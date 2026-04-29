@@ -76,7 +76,7 @@ const rows = computed<ModstanderRow[]>(() => {
 
 .duel-list li {
   background: var(--color-card);
-  border: 1px solid rgba(229, 231, 235, 0.2);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   padding: 0.55rem;
   display: flex;

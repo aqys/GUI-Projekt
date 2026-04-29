@@ -292,7 +292,7 @@ onMounted(() => {
       width: 100%;
       max-width: 430px;
       background: var(--color-card-alt);
-      border: 1px solid rgba(229, 231, 235, 0.25);
+      border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
       padding: 1rem;
       display: grid;
@@ -320,7 +320,7 @@ onMounted(() => {
     .felt input {
       padding: 0.55rem;
       border-radius: var(--border-radius);
-      border: 1px solid rgba(229, 231, 235, 0.2);
+      border: 1px solid var(--color-border);
       background: var(--color-card);
       color: var(--color-text);
       font-family: var(--font-family);
@@ -334,7 +334,7 @@ onMounted(() => {
 
     .sekundaer {
       background: transparent;
-      border: 1px solid rgba(229, 231, 235, 0.35);
+      border: 1px solid var(--color-border);
       color: var(--color-text);
     }
 

@@ -132,7 +132,7 @@ onMounted(async () => {
 
 .stat-card {
   background: var(--color-card);
-  border: 1px solid rgba(229, 231, 235, 0.2);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   padding: 0.6rem;
   display: flex;
@@ -158,7 +158,7 @@ onMounted(async () => {
 
 .kamp-item {
   background: var(--color-card);
-  border: 1px solid rgba(229, 231, 235, 0.15);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   padding: 0.75rem 0.5rem;
   display: flex;

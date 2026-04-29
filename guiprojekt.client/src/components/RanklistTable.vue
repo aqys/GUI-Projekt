@@ -328,7 +328,7 @@ onMounted(async () => {
         background-color: var(--color-table-bar);
     }
     thead th {
-        border: 1px solid rgba(229, 231, 235, 0.25);
+        border: 1px solid var(--color-border);
     }
 
     .sort-knap {
@@ -385,7 +385,7 @@ onMounted(async () => {
     .soeg-ikon svg {
       width: 100%;
       height: 100%;
-      fill: #fffafaa1;
+      fill: var(--color-icon);
     }
 
     .soeg-input {
@@ -393,7 +393,7 @@ onMounted(async () => {
       min-height: 2.05rem;
       padding: 0.35rem 0.6rem 0.35rem 2rem;
       border-radius: var(--border-radius);
-      border: 1px solid rgba(229, 231, 235, 0.2);
+      border: 1px solid var(--color-border);
       background: var(--color-card);
       color: var(--color-text);
       font-family: var(--font-family);
@@ -443,7 +443,7 @@ onMounted(async () => {
       width: 100%;
       max-width: 360px;
       background: var(--color-card-alt);
-      border: 1px solid rgba(229, 231, 235, 0.25);
+      border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
       padding: 1rem;
       display: grid;
@@ -463,7 +463,7 @@ onMounted(async () => {
     .felt input {
       padding: 0.55rem;
       border-radius: var(--border-radius);
-      border: 1px solid rgba(229, 231, 235, 0.2);
+      border: 1px solid var(--color-border);
       background: var(--color-card);
       color: var(--color-text);
       font-family: var(--font-family);
@@ -477,7 +477,7 @@ onMounted(async () => {
 
     .sekundaer {
       background: transparent;
-      border: 1px solid rgba(229, 231, 235, 0.35);
+      border: 1px solid var(--color-border);
       color: var(--color-text);
     }
 

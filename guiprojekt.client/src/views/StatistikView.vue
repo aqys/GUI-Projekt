@@ -24,6 +24,52 @@ let timeout: number
 
 const isMobile = ref(window.innerWidth < 768)
 
+function getCssVar(name: string, fallback = ''): string {
+  try {
+    const v = getComputedStyle(document.documentElement).getPropertyValue(name)
+    return (v || fallback).trim()
+  } catch (_e) {
+    return fallback
+  }
+}
+
+function hexToRgba(input: string, alpha = 1): string {
+  const hex = input.trim()
+  if (!hex) return `rgba(0,0,0,${alpha})`
+  if (hex.startsWith('rgb')) return hex
+
+  const h = hex.replace('#', '')
+  if (h.length === 3) {
+    const r = parseInt(h[0] + h[0], 16)
+    const g = parseInt(h[1] + h[1], 16)
+    const b = parseInt(h[2] + h[2], 16)
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  }
+
+  if (h.length === 6) {
+    const r = parseInt(h.substring(0, 2), 16)
+    const g = parseInt(h.substring(2, 4), 16)
+    const b = parseInt(h.substring(4, 6), 16)
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  }
+
+  return `rgba(0,0,0,${alpha})`
+}
+
+const themeIsLight = ref(document.documentElement.classList.contains('theme-light') || localStorage.getItem('theme') === 'light')
+let themeObserver: MutationObserver | undefined
+
+onMounted(() => {
+  themeObserver = new MutationObserver(() => {
+    themeIsLight.value = document.documentElement.classList.contains('theme-light') || localStorage.getItem('theme') === 'light'
+  })
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+})
+
+onUnmounted(() => {
+  themeObserver?.disconnect()
+})
+
 onMounted(() => {
   observer = new ResizeObserver(() => {
     clearTimeout(timeout)
@@ -104,15 +150,15 @@ const donutOptions = computed<ApexOptions>(() => ({
     toolbar: {
       show: false,
     },
-    foreColor: '#f8f8f8',
+    foreColor: getCssVar('--color-text', '#f8f8f8'),
     fontFamily: 'Segoe UI, Open Sans, sans-serif',
   },
   labels: ['Sejre', 'Nederlag'],
-  colors: ['#38c73f', '#ef5252'],
+  colors: [getCssVar('--color-winner', '#38c73f'), getCssVar('--color-loser', '#ef5252')],
   legend: {
     position: 'bottom',
     labels: {
-      colors: '#f8f8f8',
+      colors: getCssVar('--color-text', '#f8f8f8'),
     },
   },
   dataLabels: {
@@ -120,7 +166,7 @@ const donutOptions = computed<ApexOptions>(() => ({
   },
   stroke: {
     width: 2,
-    colors: ['#111111'],
+    colors: [getCssVar('--color-bg', '#111111')],
   },
   plotOptions: {
     pie: {
@@ -129,16 +175,16 @@ const donutOptions = computed<ApexOptions>(() => ({
         labels: {
           show: true,
           name: {
-            color: '#f8f8f8',
+            color: getCssVar('--color-text', '#f8f8f8'),
           },
           value: {
-            color: '#f8f8f8',
+            color: getCssVar('--color-text', '#f8f8f8'),
             formatter: (value) => `${value}`,
           },
           total: {
             show: true,
             label: 'Kampe',
-            color: '#cbd5e1',
+            color: getCssVar('--color-border', '#cbd5e1'),
             formatter: (ctx) => {
               const total = ctx.globals.seriesTotals.reduce((sum: number, value: number) => sum + value, 0)
               return `${total}`
@@ -149,7 +195,7 @@ const donutOptions = computed<ApexOptions>(() => ({
     },
   },
   tooltip: {
-    theme: 'dark',
+    theme: themeIsLight.value ? 'light' : 'dark',
   },
   noData: {
     text: 'Ingen data endnu',
@@ -163,7 +209,7 @@ const chartOptions = computed<ApexOptions>(() => ({
     toolbar: {
       show: false,
     },
-    foreColor: '#f8f8f8',
+    foreColor: getCssVar('--color-text', '#f8f8f8'),
     fontFamily: 'Segoe UI, Open Sans, sans-serif',
     animations: {
       enabled: true,
@@ -184,33 +230,33 @@ const chartOptions = computed<ApexOptions>(() => ({
   stroke: {
     width: 0,
   },
-  colors: ['#38c73f', '#ef5252'],
+  colors: [getCssVar('--color-winner', '#38c73f'), getCssVar('--color-loser', '#ef5252')],
   grid: {
-    borderColor: 'rgba(255, 255, 255, 0.12)',
+    borderColor: hexToRgba(getCssVar('--color-text', '#f8f8f8'), 0.12),
   },
   xaxis: {
     categories: topAktiveSpillere.value.map((spiller) => spiller.navn),
     labels: {
       style: {
-        colors: '#cbd5e1',
+        colors: hexToRgba(getCssVar('--color-text', '#f8f8f8'), 0.8),
       },
     },
   },
   yaxis: {
     labels: {
       style: {
-        colors: '#cbd5e1',
+        colors: hexToRgba(getCssVar('--color-text', '#f8f8f8'), 0.8),
       },
     },
   },
   legend: {
     position: 'top',
     labels: {
-      colors: '#f8f8f8',
+      colors: getCssVar('--color-text', '#f8f8f8'),
     },
   },
   tooltip: {
-    theme: 'dark',
+    theme: themeIsLight.value ? 'light' : 'dark',
   },
   responsive: [
     {
@@ -335,7 +381,7 @@ onMounted(async () => {
 
 .summary-card {
   background: var(--color-card);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   padding: 0.85rem 0.9rem;
   display: flex;
