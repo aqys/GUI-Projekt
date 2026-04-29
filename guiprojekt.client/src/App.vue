@@ -68,27 +68,26 @@ function isRouteActive(path: string): boolean {
   return route.path === path
 }
 
-async function updateActiveIndicator(): Promise<void> {
+function updateActiveIndicator(): void {
   const nav = navLinksRef.value
   if (!nav) return
 
-  await nextTick()
+  const activeLink = nav.querySelector('a.router-link-active') as HTMLElement | null
+  if (!activeLink) {
+    indicatorStyle.value.opacity = '0'
+    return
+  }
+
+  const navRect = nav.getBoundingClientRect()
+  const linkRect = activeLink.getBoundingClientRect()
+  
+  const newWidth = Math.max(linkRect.width - 20, 0)
+  const newTranslate = linkRect.left - navRect.left + 10
+
   requestAnimationFrame(() => {
-    const activeLink = nav.querySelector('a.router-link-active') as HTMLElement | null
-    
-    if (!activeLink) {
-      indicatorStyle.value = { ...indicatorStyle.value, opacity: '0' }
-      return
-    }
-
-    const navRect = nav.getBoundingClientRect()
-    const linkRect = activeLink.getBoundingClientRect()
-    
-    const indicatorWidth = linkRect.width - 20 
-
     indicatorStyle.value = {
-      width: `${indicatorWidth}px`,
-      transform: `translateX(${linkRect.left - navRect.left + 10}px)`,
+      width: `${newWidth}px`,
+      transform: `translateX(${newTranslate}px)`,
       opacity: '1',
     }
   })
@@ -98,7 +97,11 @@ watch(
   () => route.path,
   async () => {
     await nextTick()
-    updateActiveIndicator()
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        updateActiveIndicator()
+      })
+    })
   },
   { flush: 'post' },
 )
@@ -253,17 +256,16 @@ watch(theme, (v) => applyTheme(v))
 .nav-active-indicator {
   position: absolute;
   bottom: 0.05rem;
-  height: 1px;
-  width: 0;
-  border-radius: 99px;
+  height: 2px;
   background: var(--color-primary-hover);
+  border-radius: 99px;
   opacity: 0;
-  transition: 
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
-    width 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
-    opacity 0.2s ease;
-  will-change: transform, width;
   pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, width;
+  min-width: 0; 
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .nav-icon {
