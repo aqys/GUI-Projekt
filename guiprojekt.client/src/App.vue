@@ -284,11 +284,12 @@ watch(theme, (v) => applyTheme(v))
 }
 
 .theme-toggle {
+  margin-top: 0.25rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.15rem;
-  height: 2.15rem;
+  width: 2rem;
+  height: 2rem;
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-text);
