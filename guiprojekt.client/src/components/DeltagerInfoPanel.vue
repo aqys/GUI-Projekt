@@ -210,4 +210,17 @@ onMounted(async () => {
   gap: 0.35rem;
   padding-left: 0.2vw;
 }
+
+@media (max-width: 640px) {
+  .badge {
+    width: 5vw;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.15rem;
+  }
+
+  .linje {
+    font-size: 0.85rem;
+  }
+  
+}
 </style>

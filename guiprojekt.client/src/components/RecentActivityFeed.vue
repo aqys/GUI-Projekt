@@ -68,4 +68,16 @@ const recent = computed(() =>
   color: var(--color-loser);
   font-weight: 600;
 }
+
+@media (min-width: 640px) {
+  .feed li {
+    padding: 0.5rem;
+  }
+
+  .navn {
+    font-size: 0.9rem;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+}
 </style>

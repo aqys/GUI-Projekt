@@ -75,4 +75,10 @@ onMounted(async () => {
   opacity: 0.8;
 }
 
+@media (max-width: 640px) {
+  .toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 </style>

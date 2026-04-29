@@ -69,5 +69,26 @@ onMounted(async () => {
   opacity: 0;
 }
 
+@media (max-width: 640px) {
+  .deltagere-layout {
+    flex-direction: column;
+  }
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 23rem;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  .detalje-panel {
+    min-height: auto;
+  }
+}
+
 </style>
   

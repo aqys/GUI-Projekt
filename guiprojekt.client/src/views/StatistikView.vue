@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onMounted } from 'vue'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 import type { ApexOptions } from 'apexcharts'
 import VueApexCharts from 'vue3-apexcharts'
 import Panel from '@/components/Panel.vue'
@@ -13,6 +13,32 @@ const RecentActivityFeed = defineAsyncComponent(() => import('@/components/Recen
 const kampStore = useKampStore()
 const deltagerStore = useDeltagerStore()
 const { rankliste } = useRanklisteStats()
+
+const barContainer = ref<HTMLElement | null>(null)
+const donutContainer = ref<HTMLElement | null>(null)
+
+const chartKey = ref(0)
+
+let observer: ResizeObserver
+let timeout: number
+
+const isMobile = ref(window.innerWidth < 768)
+
+onMounted(() => {
+  observer = new ResizeObserver(() => {
+    clearTimeout(timeout)
+    timeout = window.setTimeout(() => {
+      chartKey.value++
+    }, 150)
+  })
+
+  if (barContainer.value) observer.observe(barContainer.value)
+  if (donutContainer.value) observer.observe(donutContainer.value)
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
 
 const mestAktive = computed(() => {
   return rankliste.value
@@ -247,30 +273,30 @@ onMounted(async () => {
       </div>
 
       <section class="chart-grid">
-        <div class="chart-card">
+        <div class="chart-card" ref="barContainer">
           <h2>Mest aktive spillere</h2>
           <VueApexCharts
-            v-if="topAktiveSpillere.length > 0"
+            :key="chartKey"
             class="stats-chart"
             type="bar"
-            height="360"
             :options="chartOptions"
             :series="chartSeries"
+            :height="isMobile ? 260 : 360"
           />
-          <p v-else>Ingen deltagere fundet.</p>
+          <p v-if="topAktiveSpillere.length === 0">Ingen deltagere fundet</p>
         </div>
 
-        <div class="chart-card">
-          <h2>Sejre mod nederlag</h2>
+        <div class="chart-card" ref="donutContainer">
+          <h2>Wins mod tab</h2>
           <VueApexCharts
-            v-if="antalKampe > 0"
+            :key="chartKey + '-donut'"
             class="stats-chart donut-chart"
             type="donut"
-            height="360"
             :options="donutOptions"
             :series="donutSeries"
+            :height="isMobile ? 260 : 360"
           />
-          <p v-else>Ingen kampe fundet.</p>
+          <p v-if="antalKampe === 0">Ingen kampe fundet</p>
         </div>
       </section>
     </Panel>
@@ -290,15 +316,15 @@ onMounted(async () => {
 
 .stats-summary {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 0.75rem;
-  margin: 1rem 0 1.25rem;
 }
 
 .chart-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
+  margin-top: 2rem;
 }
 
 .chart-card {
@@ -333,6 +359,7 @@ onMounted(async () => {
 
 .stats-chart {
   margin-top: 0.5rem;
+  height: 260px;
 }
 
 .donut-chart {
@@ -341,5 +368,29 @@ onMounted(async () => {
   justify-content: center;
 }
 
+.chart-wrapper {
+  width: 100%;
+  min-height: 260px;
+}
 
+.stats-chart {
+  display: block;
+  width: 100% !important;
+}
+
+@media (min-width: 640px) {
+  .stats-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .chart-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .chart-card {
+    gap: 1rem;
+    min-width: 0;
+  }
+  .stats-chart {
+    height: 360px;
+  }
+}
 </style>
