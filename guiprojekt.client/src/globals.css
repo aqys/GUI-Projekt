@@ -44,9 +44,9 @@
   --color-secondary: #2a6f3a;
 
   --color-bg: #F0F1F2;
-  --color-bar: #e8e9f0;
-  --color-card: #eceef1;
-  --color-card-alt: #f3f6f9;
+  --color-bar: #f2f2f3;
+  --color-card: #b4b4b418;
+  --color-card-alt: #f3f4f5;
   --color-card-hover: #e6eef8;
   --color-card-bar: #f0f3f6;
   --color-border: #1d1d1d80;
@@ -54,8 +54,8 @@
 
   --color-placeholder: #0b1220a1;
 
-  --color-table-bar: #f1f5f9;
-  --color-table: #ffffff;
+  --color-table-bar: #e6e6e6;
+  --color-table: #f3f3f3;
   --color-table-alt: #f8fafc;
   --color-table-hover: #e8eef7;
 

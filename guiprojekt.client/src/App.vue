@@ -68,31 +68,30 @@ function isRouteActive(path: string): boolean {
   return route.path === path
 }
 
-function updateActiveIndicator(): void {
+async function updateActiveIndicator(): Promise<void> {
   const nav = navLinksRef.value
-  if (!nav) {
-    return
-  }
+  if (!nav) return
 
-  const activeLink = nav.querySelector('a.router-link-active') as HTMLElement | null
-  if (!activeLink) {
-    indicatorStyle.value = {
-      width: '0px',
-      transform: 'translateX(0px)',
-      opacity: '0',
+  await nextTick()
+  requestAnimationFrame(() => {
+    const activeLink = nav.querySelector('a.router-link-active') as HTMLElement | null
+    
+    if (!activeLink) {
+      indicatorStyle.value = { ...indicatorStyle.value, opacity: '0' }
+      return
     }
-    return
-  }
 
-  const navRect = nav.getBoundingClientRect()
-  const linkRect = activeLink.getBoundingClientRect()
-  const indicatorWidth = Math.max(linkRect.width - 20, 0)
+    const navRect = nav.getBoundingClientRect()
+    const linkRect = activeLink.getBoundingClientRect()
+    
+    const indicatorWidth = linkRect.width - 20 
 
-  indicatorStyle.value = {
-    width: `${indicatorWidth}px`,
-    transform: `translateX(${linkRect.left - navRect.left + 10}px)`,
-    opacity: '1',
-  }
+    indicatorStyle.value = {
+      width: `${indicatorWidth}px`,
+      transform: `translateX(${linkRect.left - navRect.left + 10}px)`,
+      opacity: '1',
+    }
+  })
 }
 
 watch(
@@ -203,7 +202,7 @@ watch(theme, (v) => applyTheme(v))
   gap: 1rem;
   padding: 0.9rem 1rem;
   background: var(--color-bar);
-  border-bottom: 1px solid var(--color-primary-hover);
+  border-bottom: 2px solid var(--color-primary-hover);
 }
 
 .brand-row {
@@ -254,12 +253,16 @@ watch(theme, (v) => applyTheme(v))
 .nav-active-indicator {
   position: absolute;
   bottom: 0.05rem;
-  height: 2px;
+  height: 1px;
   width: 0;
   border-radius: 99px;
   background: var(--color-primary-hover);
   opacity: 0;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), width 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  transition: 
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+    width 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+    opacity 0.2s ease;
+  will-change: transform, width;
   pointer-events: none;
 }
 

@@ -302,6 +302,7 @@ onMounted(async () => {
     table {
         width: 100%;
         border-collapse: collapse;
+        border: 1px solid var(--color-border);
     }
 
     th, td {
