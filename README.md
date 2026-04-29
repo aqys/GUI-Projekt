@@ -55,7 +55,7 @@ Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminT
 - [x] Code splitting
 - [x] Grafer
 - [x] Responsivt UI
-- [ ] Light mode (kan skifte mellem)
+- [x] Light mode (kan skifte mellem)
 - [ ] Unit tests
 - [ ] Arkitektur diagram
 - [ ] Auth (maybe)
