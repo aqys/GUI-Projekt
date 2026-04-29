@@ -333,7 +333,7 @@ onMounted(async () => {
         </div>
 
         <div class="chart-card" ref="donutContainer">
-          <h2>Wins mod tab</h2>
+          <h2>Totale wins og tab</h2>
           <VueApexCharts
             :key="chartKey + '-donut'"
             class="stats-chart donut-chart"
@@ -422,6 +422,10 @@ onMounted(async () => {
 .stats-chart {
   display: block;
   width: 100% !important;
+}
+
+.chart-card h2 {
+  text-align: center;
 }
 
 @media (min-width: 640px) {
