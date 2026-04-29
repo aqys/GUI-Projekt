@@ -133,11 +133,11 @@ const bedsteWinrate = computed(() => {
 
 const chartSeries = computed(() => [
   {
-    name: 'Sejre',
+    name: 'Win',
     data: topAktiveSpillere.value.map((spiller) => spiller.wins),
   },
   {
-    name: 'Nederlag',
+    name: 'Tab',
     data: topAktiveSpillere.value.map((spiller) => spiller.losses),
   },
 ])
@@ -153,7 +153,7 @@ const donutOptions = computed<ApexOptions>(() => ({
     foreColor: getCssVar('--color-text', '#f8f8f8'),
     fontFamily: 'Segoe UI, Open Sans, sans-serif',
   },
-  labels: ['Sejre', 'Nederlag'],
+  labels: ['Win', 'Tab'],
   colors: [getCssVar('--color-winner', '#38c73f'), getCssVar('--color-loser', '#ef5252')],
   legend: {
     position: 'bottom',
