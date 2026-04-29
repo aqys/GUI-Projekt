@@ -135,16 +135,6 @@ watch(theme, (v) => applyTheme(v))
     <header class="topbar">
       <div class="brand-row">
         <h1 class="brand"><a href="/" class="back">Turneringsmanager</a></h1>
-        <button
-          class="theme-toggle"
-          type="button"
-          :aria-label="theme === 'light' ? 'Skift til mørkt tema' : 'Skift til lyst tema'"
-          :aria-pressed="theme === 'light'"
-          @click="theme = theme === 'light' ? 'dark' : 'light'"
-        >
-          <IconSun v-if="theme === 'light'" class="theme-icon" />
-          <IconMoon v-else class="theme-icon" />
-        </button>
       </div>
       <nav ref="navLinksRef" class="nav-links">
         <RouterLink to="/dashboard" class="nav-item">
@@ -179,6 +169,16 @@ watch(theme, (v) => applyTheme(v))
 
         <span class="nav-active-indicator" :style="indicatorStyle" aria-hidden="true"></span>
       </nav>
+        <button
+          class="theme-toggle"
+          type="button"
+          :aria-label="theme === 'light' ? 'Skift til mørkt tema' : 'Skift til lyst tema'"
+          :aria-pressed="theme === 'light'"
+          @click="theme = theme === 'light' ? 'dark' : 'light'"
+        >
+          <IconSun v-if="theme === 'light'" class="theme-icon" />
+          <IconMoon v-else class="theme-icon" />
+        </button>
     </header>
 
     <section class="view-wrapper">
@@ -200,7 +200,6 @@ watch(theme, (v) => applyTheme(v))
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 1rem;
   background: var(--color-bar);
@@ -223,7 +222,8 @@ watch(theme, (v) => applyTheme(v))
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: .75rem;
+  margin-left: auto;
 }
 
 .nav-links a {
@@ -267,6 +267,7 @@ watch(theme, (v) => applyTheme(v))
   width: 1.15rem;
   height: 1.15rem;
   flex-shrink: 0;
+  margin-top: .1rem;
 }
 
 .view-wrapper {
