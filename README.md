@@ -51,9 +51,10 @@ Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminT
 - [x] Sæt routing op
 - [x] Tilføj ikoner
 - [x] CRUD
-- [ ] Responsivt UI
 - [x] Input validation og error handling
 - [x] Code splitting
+- [ ] Grafer
+- [ ] Responsivt UI
 - [ ] Unit tests?
 - [ ] Arkitektur diagram
 - [ ] Auth (maybe)
