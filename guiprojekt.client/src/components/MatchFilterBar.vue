@@ -86,9 +86,7 @@
     margin-bottom: 1rem;
     padding: 0.6rem;
     border-radius: 0.35rem;
-    background:
-      linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
-      var(--color-card-alt);
+    background: var(--color-card);
     border: 1px solid rgba(229, 231, 235, 0.18);
   }
 

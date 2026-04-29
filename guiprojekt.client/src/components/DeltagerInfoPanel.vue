@@ -11,7 +11,7 @@
 
       <div class="stats-grid">
         <article class="stat-card">
-          <span class="label">Sejre</span>
+          <span class="label">Win</span>
           <strong class="value">{{ detaljer.wins }}</strong>
         </article>
 
