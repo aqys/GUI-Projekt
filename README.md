@@ -119,9 +119,9 @@ API er tilgængeligt på `/api/v1/`
 
 
 ```bash
-curl https://localhost:7001/api/v1/spillere
+curl https://localhost:7156/api/v1/spillere
 
-curl -X POST https://localhost:7001/api/v1/spillere \
+curl -X POST https://localhost:7156/api/v1/spillere \
   -H "Content-Type: application/json" \
   -d '{"navn": "Test spiller"}'
 ```
@@ -136,9 +136,9 @@ curl -X POST https://localhost:7001/api/v1/spillere \
 
 
 ```bash
-curl https://localhost:7001/api/v1/kampe
+curl https://localhost:7156/api/v1/kampe
 
-curl -X POST https://localhost:7001/api/v1/kampe \
+curl -X POST https://localhost:7156/api/v1/kampe \
   -H "Content-Type: application/json" \
   -d '{"vinder": "Test spiller 1", "taber": "Test spiller 2", "vinderScore": 5, "taberScore": 2, "tidspunkt": "2026-04-30 10:00"}'
 ```
