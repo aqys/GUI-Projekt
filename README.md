@@ -63,7 +63,7 @@ CREATE TABLE kampe (
 );
 ```
 
-2 - Opret database bruger:
+3 - Opret database bruger:
 
 ```sql
 CREATE USER 'tuneringskonto'@'localhost' IDENTIFIED BY 'AdminTest123!';
@@ -71,7 +71,7 @@ GRANT ALL PRIVILEGES ON tunering.* TO 'tuneringskonto'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-3 - Connection string (allerede konfigureret i `appsettings.json`):
+4 - Connection string (allerede konfigureret i `appsettings.json`):
 
 ```text
 Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminTest123!;SslMode=None;
