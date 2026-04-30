@@ -5,7 +5,7 @@
 ### Design Patterns
 
 | Pattern | Beskrivelse | Anvendelse |
-|---------|-------------|------------|
+| --------- | ------------- | ------------ |
 | **Pinia Store** | State management | `deltagerStore.ts`, `kampStore.ts` |
 | **Repository Pattern** | En slags "Datamanager" som håndterer alle API kald | Pinia stores fungerer som repositories |
 | **MVC (Model-View-Controller)** | Backend logik | Vue komponenter (View) <-> Stores (Controller) <-> API (Model) |
@@ -21,7 +21,7 @@
 #### Værktøjs krav
 
 | Værktøj | Version |
-|---------|---------|
+| --------- | -------- |
 | Node.js | 24 LTS |
 | .NET | 10.0 |
 | MySQL | 15.1 |
@@ -108,6 +108,13 @@ Backend kører på: `https://localhost:7156`
 
 Frontend kører på `https://localhost:57051`, men videresender automatisk alle api kald til backend via proxy (Vite). Du behøver kun at starte backend, frontend startes automatisk.
 
+**Start frontend:**
+
+```bash
+cd ../guiprojekt.client
+npm run dev
+```
+
 ---
 
 &nbsp;
@@ -119,12 +126,11 @@ API er tilgængeligt på `/api/v1/`
 #### Spiller API
 
 | Method | Endpoint | Beskrivelse | Body |
-|--------|----------|-------------|--------------|
+| -------- | ---------- | ------------- | -------------- |
 | `GET` | `/api/v1/spillere` | Hent alle spillere | - |
 | `POST` | `/api/v1/spillere` | Opret ny spiller | `{"navn": "string"}` |
 | `PUT` | `/api/v1/spillere/{id}` | Opdater spiller | `{"navn": "string"}` |
 | `DELETE` | `/api/v1/spillere/{id}` | Slet spiller | - |
-
 
 ```bash
 curl https://localhost:7156/api/v1/spillere
@@ -139,11 +145,10 @@ curl -X POST https://localhost:7156/api/v1/spillere \
 #### Kamp API
 
 | Method | Endpoint | Beskrivelse | Body |
-|--------|----------|-------------|--------------|
+| -------- | ---------- | ------------- | -------------- |
 | `GET` | `/api/v1/kampe` | Hent alle kampe | - |
 | `POST` | `/api/v1/kampe` | Registrer kamp | `{"vinder": "string", "taber": "string", "vinderScore": number, "taberScore": number, "tidspunkt": "string"}` |
 | `PUT` | `/api/v1/kampe/{id}` | Opdater kamp | `{"vinder": "string", "taber": "string", "vinderScore": number, "taberScore": number, "tidspunkt": "string"}` |
-
 
 ```bash
 curl https://localhost:7156/api/v1/kampe
@@ -154,6 +159,7 @@ curl -X POST https://localhost:7156/api/v1/kampe \
 ```
 
 **Regler:**
+
 - Vinder og taber må ikke være samme spiller
 - Vinder score skal være højere end taber score
 - Spillerne skal eksistere i databasen
