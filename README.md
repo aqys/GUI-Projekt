@@ -100,7 +100,7 @@ dotnet run --launch-profile https
 
 Backend kører på: `https://localhost:7156`
 
-Frontend/Hjemmesiden kører på `https://localhost:57051`
+Frontend kører på `https://localhost:57051`, men videresender automatisk alle api kald til backend via proxy (Vite). Du behøver kun at starte backend, frontend startes automatisk.
 
 ---
 
