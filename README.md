@@ -14,6 +14,8 @@
 
 ---
 
+&nbsp;
+
 ### Installationsguide
 
 #### Værktøjs krav
@@ -23,6 +25,8 @@
 | Node.js | 24 LTS |
 | .NET | 10.0 |
 | MySQL | 15.1 |
+
+&nbsp;
 
 #### 1: Klon projektet
 
@@ -77,6 +81,8 @@ FLUSH PRIVILEGES;
 Server=127.0.0.1;Port=3306;Database=tunering;User=tuneringskonto;Password=AdminTest123!;SslMode=None;
 ```
 
+&nbsp;
+
 #### 3: Installer dependencies
 
 ```bash
@@ -104,6 +110,8 @@ Frontend kører på `https://localhost:57051`, men videresender automatisk alle 
 
 ---
 
+&nbsp;
+
 ### API Dokumentation
 
 API er tilgængeligt på `/api/v1/`
@@ -125,6 +133,8 @@ curl -X POST https://localhost:7156/api/v1/spillere \
   -H "Content-Type: application/json" \
   -d '{"navn": "Test spiller"}'
 ```
+
+&nbsp;
 
 #### Kamp API
 
@@ -149,6 +159,8 @@ curl -X POST https://localhost:7156/api/v1/kampe \
 - Spillerne skal eksistere i databasen
 
 ---
+
+&nbsp;
 
 ## Brugerdokumentation
 
@@ -183,6 +195,8 @@ Webapp'en har følgende sider (kan tilgås via navbar):
 4. Klik **"Gem"**
 
 ---
+
+&nbsp;
 
 ## TODO
 
