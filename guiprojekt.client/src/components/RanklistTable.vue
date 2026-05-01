@@ -77,6 +77,40 @@
       </tr>
     </tbody>
   </table>
+
+  <!-- Pagination -->
+  <div v-if="totalSider > 1" class="pagination">
+    <button
+      class="pagination-knap"
+      :disabled="currentPage === 1"
+      type="button"
+      @click="forrigeSide"
+    >
+      ← Forrige
+    </button>
+    <div class="pagination-sider">
+      <template v-for="side in totalSider" :key="side">
+        <button
+          v-if="side === 1 || side === totalSider || (side >= currentPage - 1 && side <= currentPage + 1)"
+          class="pagination-side"
+          :class="{ aktiv: side === currentPage }"
+          type="button"
+          @click="gaarTilSide(side)"
+        >
+          {{ side }}
+        </button>
+        <span v-else-if="side === currentPage - 2 || side === currentPage + 2" class="pagination-ellipsis">...</span>
+      </template>
+    </div>
+    <button
+      class="pagination-knap"
+      :disabled="currentPage === totalSider"
+      type="button"
+      @click="naesteSide"
+    >
+      Næste →
+    </button>
+  </div>
   <p v-if="lokalFejl" class="fejl">{{ lokalFejl }}</p>
 
   <Transition name="fade">
@@ -110,7 +144,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, onUnmounted } from 'vue'
+import { computed, onMounted, ref, onUnmounted, watch } from 'vue'
 import { useDeltagerStore } from '@/stores/deltagerStore'
 import { useKampStore } from '@/stores/kampStore'
 import { useRanklisteStats } from '@/composables/useRanklisteStats'
@@ -157,6 +191,11 @@ const aktivSorteringsKolonne = ref<SorteringsKolonne>('points')
 const aktivSorteringsRetning = ref<SorteringsRetning>('desc')
 const lokalFejl = ref('')
 const soegeTekst = ref('')
+
+// Nulstil side når søgning ændres
+watch(soegeTekst, () => {
+  currentPage.value = 1
+})
 const redigerModalAaben = ref(false)
 const redigerId = ref<number | null>(null)
 const redigerNavn = ref('')
@@ -207,8 +246,37 @@ const visteDeltagere = computed(() => {
     return sorteretRankliste.value.slice(0, props.limit)
   }
 
-  return sorteretRankliste.value
+  // Pagination: flere resultater på PC end mobil
+  const itemsPerSide = isMobile.value ? 10 : 20
+  const start = (currentPage.value - 1) * itemsPerSide
+  const end = start + itemsPerSide
+  return sorteretRankliste.value.slice(start, end)
 })
+
+// Pagination state
+const currentPage = ref(1)
+const totalSider = computed(() => {
+  const itemsPerSide = isMobile.value ? 10 : 20
+  return Math.ceil(sorteretRankliste.value.length / itemsPerSide)
+})
+
+function gaarTilSide(side: number) {
+  if (side >= 1 && side <= totalSider.value) {
+    currentPage.value = side
+  }
+}
+
+function forrigeSide() {
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
+}
+
+function naesteSide() {
+  if (currentPage.value < totalSider.value) {
+    currentPage.value++
+  }
+}
 
 function skiftSortering(kolonne: SorteringsKolonne) {
   if (aktivSorteringsKolonne.value === kolonne) {
@@ -427,6 +495,140 @@ onMounted(async () => {
     .fejl {
       margin-top: 0.75rem;
       color: var(--color-error);
+    }
+
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      background: var(--color-table-bar);
+      padding: 0.75rem 0.5rem 0.5rem 0.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
+    }
+
+    .pagination-knap {
+      min-width: 2.5rem;
+      padding: 0.45rem 0.9rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--border-radius);
+      background: var(--color-card);
+      color: var(--color-text);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background 0.16s, border-color 0.16s, color 0.16s;
+      text-align: center;
+      outline: none;
+      box-shadow: none;
+      margin: 0 0.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+
+    .pagination-knap:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: var(--color-table-alt);
+      color: var(--color-text-muted);
+      border-color: var(--color-border);
+    }
+
+    .pagination-knap:not(:disabled):hover,
+    .pagination-knap:not(:disabled):focus {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+
+    .pagination-sider {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin: 0 0.2rem;
+    }
+
+    .pagination-side {
+      min-width: 2.2rem;
+      height: 2.2rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--border-radius);
+      background: var(--color-card);
+      color: var(--color-text);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background 0.16s, border-color 0.16s, color 0.16s;
+      outline: none;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.1rem;
+    }
+
+    .pagination-side.aktiv,
+    .pagination-side:focus {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+
+    .pagination-side:not(.aktiv):hover {
+      background: var(--color-card-hover);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .pagination-ellipsis {
+      padding: 0 0.4rem;
+      color: var(--color-text-muted);
+      font-size: 1.1rem;
+      user-select: none;
+    }
+
+
+    @media (max-width: 640px) {
+      th, td {
+        padding: 0.6rem 0.4rem;
+        font-size: 1rem;
+      }
+
+      h2 {
+        font-size: 1.1rem;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 0;
+        margin-top: 1rem;
+      }
+
+      .pagination {
+        gap: 0.25rem;
+        padding: 0.5rem 0.2rem 0.3rem 0.2rem;
+      }
+
+      .pagination-knap {
+        min-width: 2rem;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .pagination-side {
+        min-width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.9rem;
+      }
     }
 
     .modal-overlay {

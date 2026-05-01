@@ -225,9 +225,9 @@ Webapp'en har følgende sider (kan tilgås via navbar):
 - [x] Responsivt UI
 - [x] Light mode (kan skifte mellem)
 - [x] Opdater README/Dokumentation
-- [ ] Pagination på RanklisteView (RanklistTable)
-- [ ] Unit tests
-- [ ] Opnå 100-100-100 i Google Lighthouse
+- [x] Pagination på RanklisteView (RanklistTable)
+- [x] Unit tests
+- [ ] Opnå 100-100-100-100 i Google Lighthouse
 - [ ] Arkitektur diagram
 - [ ] Auth (maybe)
 - [ ] Tjek alt igennem
