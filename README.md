@@ -1,5 +1,41 @@
 # Turneringshåndterings-Webapp
 
+## Arkitektur
+
+```mermaid
+flowchart LR
+    Bruger[Bruger]
+
+    subgraph Frontend
+        direction TB
+        Views[Views og Components]
+        Stores[States]
+        Views --> Stores
+    end
+
+    subgraph Backend
+        direction TB
+        Controllere[API Controllere]
+        Modeller[Modeller]
+        Controllere --> Modeller
+    end
+
+    DB[(Database)]
+
+    Bruger --> Frontend
+    Frontend -->|HTTP/REST| Backend
+    Backend --> DB
+
+    style Bruger fill:#374151,stroke:#9CA3AF,stroke-width:2px    
+    style Frontend fill:#064E3B,stroke:#41B883,stroke-width:2px
+    style Views fill:#1F2937,stroke:#34D399,stroke-width:1px
+    style Stores fill:#1F2937,stroke:#34D399,stroke-width:1px
+    style Backend fill:#1E3A8A,stroke:#60A5FA,stroke-width:2px
+    style Controllere fill:#1F2937,stroke:#93C5FD,stroke-width:1px
+    style Modeller fill:#1F2937,stroke:#93C5FD,stroke-width:1px
+    style DB fill:#202028,stroke:#ffffff,stroke-width:2px
+```
+
 ## Teknisk Dokumentation
 
 ### Design Patterns
@@ -228,7 +264,7 @@ Webapp'en har følgende sider (kan tilgås via navbar):
 - [x] Pagination på RanklisteView (RanklistTable)
 - [x] Unit tests
 - [ ] Opnå 100-100-100-100 i Google Lighthouse
-- [ ] Arkitektur diagram
+- [x] Arkitektur diagram
 - [ ] Auth (maybe)
 - [ ] Tjek alt igennem
 - [ ] Færdiggør README/Dokumentation
