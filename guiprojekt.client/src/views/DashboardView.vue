@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-import Panel from '@/components/Panel.vue'
-
+const Panel = defineAsyncComponent(() => import('@/components/Panel.vue'))
 const TurneringsOverview = defineAsyncComponent(() => import('@/components/TurneringsOverview.vue'))
 const RanklistTable = defineAsyncComponent(() => import('@/components/RanklistTable.vue'))
 const MatchList = defineAsyncComponent(() => import('@/components/MatchList.vue'))

@@ -36,6 +36,10 @@ flowchart LR
     style DB fill:#202028,stroke:#ffffff,stroke-width:2px
 ```
 
+<div align="center">
+  <img src="score.png" alt="Lighthouse Score">
+</div>
+
 ## Teknisk Dokumentation
 
 ### Design Patterns
@@ -263,7 +267,7 @@ Webapp'en har følgende sider (kan tilgås via navbar):
 - [x] Opdater README/Dokumentation
 - [x] Pagination på RanklisteView (RanklistTable)
 - [x] Unit tests
-- [ ] Opnå 100-100-100-100 i Google Lighthouse
+- [x] Opnå 100-100-100-100 i Google Lighthouse
 - [x] Arkitektur diagram
 - [ ] Auth (maybe)
 - [ ] Tjek alt igennem

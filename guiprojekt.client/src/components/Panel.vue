@@ -11,6 +11,8 @@
         padding: 0.75rem;
         box-shadow: 2px 6px 8px 0 rgba(0, 0, 0, .375);
         border: 1px solid var(--color-border);
+        contain-intrinsic-size: auto 200px;
+        contain: layout;
     }
     
     @media (max-width: 640px) {

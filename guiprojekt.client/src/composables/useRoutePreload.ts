@@ -1,5 +1,3 @@
-import { useDeltagerStore } from "@/stores/deltagerStore"
-import { useKampStore } from "@/stores/kampStore"
 import type { PreloadKey, RoutePreloadResult } from "@/types"
 
 type PreloadOptions = {
@@ -44,14 +42,17 @@ async function preloadOne(key: PreloadKey, options: PreloadOptions): Promise<voi
 
     const job = (async () => {
         if (key === 'deltagere') {
+            const { useDeltagerStore } = await import('@/stores/deltagerStore')
             const deltagerStore = useDeltagerStore()
-            await withTimeout((signal) => deltagerStore.ensureLoaded({ signal, maxAgeMs, force}), timeoutMs)
+            await withTimeout((signal) => deltagerStore.ensureLoaded({ signal, maxAgeMs, force }), timeoutMs)
             return
         }
 
         if (key === 'kampe') {
+            const { useKampStore } = await import('@/stores/kampStore')
             const kampStore = useKampStore()
-            await withTimeout((signal) => kampStore.ensureLoaded({ signal, maxAgeMs, force}), timeoutMs)
+            await withTimeout((signal) => kampStore.ensureLoaded({ signal, maxAgeMs, force }), timeoutMs)
+            return
         }
     })()
 

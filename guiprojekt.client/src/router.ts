@@ -57,15 +57,17 @@ const router = createRouter({
   ]
 })
 
-router.beforeResolve(async (to) => {
-  const results = await preloadRouteData(to.meta.preload, {
-    timeoutMs: 5000,
-    maxAgeMs: 45_000,
-  })
-
-  const failed = results.filter((r) => !r.ok)
-  if (failed.length > 0) {
-    console.warn('Preload delvist fejlet, route fortsætter:', failed)
+router.beforeResolve((to) => {
+  if (to.meta.preload) {
+    preloadRouteData(to.meta.preload, {
+      timeoutMs: 5000,
+      maxAgeMs: 45_000,
+    }).then((results) => {
+      const failed = results.filter((r) => !r.ok)
+      if (failed.length > 0) {
+        console.warn('Preload delvist fejlet, route fortsætter:', failed)
+      }
+    }).catch(() => {})
   }
 
   return true

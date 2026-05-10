@@ -1,25 +1,21 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { defineAsyncComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
-import IconLayoutDashboard from '@tabler/icons-vue/dist/esm/icons/IconLayoutDashboard.mjs'
-import IconLayoutDashboardFilled from '@tabler/icons-vue/dist/esm/icons/IconLayoutDashboardFilled.mjs'
-import IconCircle from '@tabler/icons-vue/dist/esm/icons/IconCircle.mjs'
-import IconCircleFilled from '@tabler/icons-vue/dist/esm/icons/IconCircleFilled.mjs'
-import IconTrophy from '@tabler/icons-vue/dist/esm/icons/IconTrophy.mjs'
-import IconTrophyFilled from '@tabler/icons-vue/dist/esm/icons/IconTrophyFilled.mjs'
-import IconUserFilled from '@tabler/icons-vue/dist/esm/icons/IconUserFilled.mjs'
-import IconUser from '@tabler/icons-vue/dist/esm/icons/IconUser.mjs'
-import IconChartPie2 from '@tabler/icons-vue/dist/esm/icons/IconChartPie2.mjs'
-import IconChartPie2Filled from '@tabler/icons-vue/dist/esm/icons/IconChartPie2Filled.mjs'
-import IconMoon from '@tabler/icons-vue/dist/esm/icons/IconMoon.mjs'
-import IconSun from '@tabler/icons-vue/dist/esm/icons/IconSun.mjs'
-import { useDeltagerStore } from '@/stores/deltagerStore'
-import { useKampStore } from '@/stores/kampStore'
+const IconLayoutDashboard = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconLayoutDashboard.mjs'))
+const IconLayoutDashboardFilled = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconLayoutDashboardFilled.mjs'))
+const IconCircle = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconCircle.mjs'))
+const IconCircleFilled = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconCircleFilled.mjs'))
+const IconTrophy = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconTrophy.mjs'))
+const IconTrophyFilled = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconTrophyFilled.mjs'))
+const IconUserFilled = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconUserFilled.mjs'))
+const IconUser = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconUser.mjs'))
+const IconChartPie2 = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconChartPie2.mjs'))
+const IconChartPie2Filled = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconChartPie2Filled.mjs'))
+const IconMoon = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconMoon.mjs'))
+const IconSun = defineAsyncComponent(() => import('@tabler/icons-vue/dist/esm/icons/IconSun.mjs'))
 
 const route = useRoute()
 const navLinksRef = ref<HTMLElement | null>(null)
-const deltagerStore = useDeltagerStore()
-const kampStore = useKampStore()
 const AUTO_REFRESH_MS = 25_000
 let autoRefreshTimer: number | null = null
 const indicatorStyle = ref({
@@ -47,6 +43,11 @@ async function refreshStores(force = false): Promise<void> {
   if (document.hidden) {
     return
   }
+
+  const { useDeltagerStore } = await import('@/stores/deltagerStore')
+  const { useKampStore } = await import('@/stores/kampStore')
+  const deltagerStore = useDeltagerStore()
+  const kampStore = useKampStore()
 
   await Promise.allSettled([
     deltagerStore.ensureLoaded({ force, maxAgeMs: AUTO_REFRESH_MS }),
@@ -108,12 +109,10 @@ watch(
 
 onMounted(async () => {
   await nextTick()
-  applyTheme(theme.value)
   updateActiveIndicator()
   window.addEventListener('resize', updateActiveIndicator)
   document.addEventListener('visibilitychange', handleVisibilityChange)
-
-  await refreshStores()
+  void refreshStores()
   autoRefreshTimer = window.setInterval(() => {
     void refreshStores(true)
   }, AUTO_REFRESH_MS)
