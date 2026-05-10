@@ -1,6 +1,6 @@
 # Turneringshåndterings-Webapp
 
-## Arkitektur
+## Arkitektur Diagram
 
 ```mermaid
 flowchart LR
@@ -36,9 +36,15 @@ flowchart LR
     style DB fill:#202028,stroke:#ffffff,stroke-width:2px
 ```
 
+---
+
+## Lighthouse
+
 <div align="center">
   <img src="score.png" alt="Lighthouse Score">
 </div>
+
+---
 
 ## Teknisk Dokumentation
 
