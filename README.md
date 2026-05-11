@@ -41,7 +41,7 @@ flowchart LR
 ## Lighthouse
 
 <div align="center">
-  <img src="score.png" alt="Lighthouse Score">
+  <img src="img/score.png" alt="Lighthouse Score">
 </div>
 
 ---
@@ -226,6 +226,8 @@ curl -X POST https://localhost:7156/api/v1/kampe \
 
 Webapp'en har følgende sider (kan tilgås via navbar):
 
+<img src="img/navbar.png" alt="Navbar" width="600"/>
+
 1. **Dashboard** (`/`) - Overblik
 2. **Kampe** (`/kampe`) - Se og registrer kampe
 3. **Rankliste** (`/rankliste`) - Se spillere rankliste
@@ -233,6 +235,8 @@ Webapp'en har følgende sider (kan tilgås via navbar):
 5. **Statistik** (`/stats`) - Statistik
 
 #### Sådan registrerer du en kamp
+
+<img src="img/kampe.png" alt="Kampe" width="950"/>
 
 1. Gå til **Kampe** siden
 2. Klik på **"Registrer Kamp"** knappen
@@ -244,6 +248,10 @@ Webapp'en har følgende sider (kan tilgås via navbar):
 4. Klik **"Gem"** for at registrere
 
 #### Sådan tilføjer du en ny spiller
+
+<img src="img/deltagere.png" alt="Deltagere" width="800"/>
+
+<img src="img/add_spiller.png" alt="Tilføj spiller" width="350"/>
 
 1. Gå til **Deltagere** siden
 2. Klik på **"Tilføj Spiller"** knappen
