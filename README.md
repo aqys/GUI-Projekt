@@ -178,6 +178,8 @@ API er tilgængeligt på `/api/v1/`
 | `PUT` | `/api/v1/spillere/{id}` | Opdater spiller | `{"navn": "string"}` |
 | `DELETE` | `/api/v1/spillere/{id}` | Slet spiller | - |
 
+##### Eksempel
+
 ```bash
 curl https://localhost:7156/api/v1/spillere
 
@@ -195,6 +197,8 @@ curl -X POST https://localhost:7156/api/v1/spillere \
 | `GET` | `/api/v1/kampe` | Hent alle kampe | - |
 | `POST` | `/api/v1/kampe` | Registrer kamp | `{"vinder": "string", "taber": "string", "vinderScore": number, "taberScore": number, "tidspunkt": "string"}` |
 | `PUT` | `/api/v1/kampe/{id}` | Opdater kamp | `{"vinder": "string", "taber": "string", "vinderScore": number, "taberScore": number, "tidspunkt": "string"}` |
+
+##### Eksempel
 
 ```bash
 curl https://localhost:7156/api/v1/kampe
