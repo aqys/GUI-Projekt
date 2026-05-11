@@ -287,6 +287,6 @@ Webapp'en har følgende sider (kan tilgås via navbar):
 - [x] Unit tests
 - [x] Opnå 100-100-100-100 i Google Lighthouse
 - [x] Arkitektur diagram
-- [ ] Auth (maybe)
-- [ ] Tjek alt igennem
-- [ ] Færdiggør README/Dokumentation
+- [x] Tjek alt igennem
+- [x] Færdiggør README/Dokumentation
+- [ ] Auth
