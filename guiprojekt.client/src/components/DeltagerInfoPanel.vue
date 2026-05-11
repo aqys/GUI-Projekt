@@ -167,13 +167,16 @@ onMounted(async () => {
 }
 
 .badge {
-  width: 1.75vw;
-  text-align: center;
-  border-radius: 0.25vw;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
   font-weight: 700;
-  font-size: 1rem;
-  padding: 0.18rem 0.15rem;
+  font-size: 0.85rem;
   color: #fff;
+  flex-shrink: 0;
 }
 
 .badge.win {
@@ -212,15 +215,8 @@ onMounted(async () => {
 }
 
 @media (max-width: 640px) {
-  .badge {
-    width: 5vw;
-    font-size: 0.85rem;
-    padding: 0.25rem 0.15rem;
-  }
-
   .linje {
     font-size: 0.85rem;
   }
-  
 }
 </style>

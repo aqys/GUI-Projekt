@@ -94,15 +94,15 @@ function updateActiveIndicator(): void {
   })
 }
 
+let navObserver: ResizeObserver | null = null
+
 watch(
   () => route.path,
   async () => {
     await nextTick()
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        updateActiveIndicator()
-      })
-    })
+    // Giv browseren et øjeblik til at rendere det nye aktive link
+    setTimeout(updateActiveIndicator, 0)
+    requestAnimationFrame(updateActiveIndicator)
   },
   { flush: 'post' },
 )
@@ -112,6 +112,15 @@ onMounted(async () => {
   updateActiveIndicator()
   window.addEventListener('resize', updateActiveIndicator)
   document.addEventListener('visibilitychange', handleVisibilityChange)
+
+  // Brug ResizeObserver til at håndtere asynkrone ikoner der loader ind
+  if (navLinksRef.value) {
+    navObserver = new ResizeObserver(() => {
+      updateActiveIndicator()
+    })
+    navObserver.observe(navLinksRef.value, { box: 'border-box' })
+  }
+
   void refreshStores()
   autoRefreshTimer = window.setInterval(() => {
     void refreshStores(true)
@@ -121,6 +130,11 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateActiveIndicator)
   document.removeEventListener('visibilitychange', handleVisibilityChange)
+  
+  if (navObserver) {
+    navObserver.disconnect()
+    navObserver = null
+  }
 
   if (autoRefreshTimer !== null) {
     window.clearInterval(autoRefreshTimer)
@@ -128,7 +142,7 @@ onBeforeUnmount(() => {
   }
 })
 
-watch(theme, (v) => applyTheme(v))
+watch(theme, (v) => applyTheme(v), { immediate: true })
 </script>
 
 <template>
@@ -204,7 +218,7 @@ watch(theme, (v) => applyTheme(v))
   gap: 1rem;
   padding: 0.9rem 1rem;
   background: var(--color-bar);
-  border-bottom: 2px solid var(--color-primary-hover);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .brand-row {
@@ -243,7 +257,7 @@ watch(theme, (v) => applyTheme(v))
 }
 
 .nav-links a:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--color-card-hover);
 }
 
 .nav-links a.router-link-active {
@@ -256,7 +270,7 @@ watch(theme, (v) => applyTheme(v))
   position: absolute;
   bottom: 0.05rem;
   height: 2px;
-  background: var(--color-primary-hover);
+  background: var(--color-primary);
   border-radius: 99px;
   opacity: 0;
   pointer-events: none;

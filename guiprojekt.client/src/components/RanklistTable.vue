@@ -79,7 +79,7 @@
   </table>
 
   <!-- Pagination -->
-  <div v-if="totalSider > 1" class="pagination">
+  <div v-if="!props.limit && totalSider > 1" class="pagination">
     <button
       class="pagination-knap"
       :disabled="currentPage === 1"
@@ -281,11 +281,11 @@ function naesteSide() {
 function skiftSortering(kolonne: SorteringsKolonne) {
   if (aktivSorteringsKolonne.value === kolonne) {
     aktivSorteringsRetning.value = aktivSorteringsRetning.value === 'asc' ? 'desc' : 'asc'
-    return
+  } else {
+    aktivSorteringsKolonne.value = kolonne
+    aktivSorteringsRetning.value = kolonne === 'navn' ? 'asc' : 'desc'
   }
-
-  aktivSorteringsKolonne.value = kolonne
-  aktivSorteringsRetning.value = kolonne === 'navn' ? 'asc' : 'desc'
+  currentPage.value = 1
 }
 
 function hentSortSymbol(kolonne: SorteringsKolonne): string {

@@ -213,14 +213,14 @@ async function registrer() {
 
     select,
     input {
-        padding: 1vh 0.4vw;
-        border: 0.1vw solid var(--color-border);
+        padding: 0.5rem 0.65rem;
+        border: 1px solid var(--color-border);
         border-radius: var(--border-radius);
         font-size: var(--font-size-body);
         font-family: var(--font-family);
         background-color: var(--color-card);
         color: var(--color-text);
-        transition: border-color 0.2s;
+        transition: border-color 0.2s, box-shadow 0.2s;
         width: 100%;
         box-sizing: border-box;
     }
@@ -229,6 +229,7 @@ async function registrer() {
     input:focus {
         outline: none;
         border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     select:disabled,
