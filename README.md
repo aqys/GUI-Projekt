@@ -46,6 +46,24 @@ flowchart LR
 
 ---
 
+## Valg af framework
+
+### Hvorfor?
+
+Jeg valgte at bruge ASP.NET Core sammen med Vue 3, for at prøve noget helt nyt.
+
+### Leverede det op til forventningerne?
+
+Ja det ville jeg i hvert fald sige, det har været super sjovt at lære og at bruge.
+
+### Ville du vælge et andet i dag?
+
+Nej det ville jeg faktisk ikke. 
+
+Jeg ville rigtig gerne lære mere om Vue 3 og blive ved med at bruge det.
+
+---
+
 ## Teknisk Dokumentation
 
 ### Design Patterns
@@ -71,6 +89,13 @@ flowchart LR
 | Node.js | 24 LTS |
 | .NET | 10.0 |
 | MySQL | 15.1 |
+
+#### Dependencies
+
+- <span color="#7ee787">@tabler/icons-vue <span color="#96c3e8">v3.41.1</span></span>
+- <span color="#7ee787">vue3-apexcharts <span color="#96c3e8">v1.11.1</span></span>
+- <span color="#7ee787">pinia <span color="#96c3e8">v3.0.4</span></span>
+- <span color="#7ee787">vue-router <span color="#96c3e8">v4.6.4</span></span>
 
 &nbsp;
 
