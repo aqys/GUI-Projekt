@@ -50,16 +50,17 @@ flowchart LR
 
 ### Hvorfor?
 
-Jeg valgte at bruge ASP.NET Core sammen med Vue 3, for at prøve noget helt nyt.
+Jeg valgte at bruge en kombination af ASP.NET Core (Backend) og Vue 3 (Frontend), 
+på grund af at jeg gerne ville prøve noget nyt.
 
 ### Leverede det op til forventningerne?
 
-Ja det ville jeg i hvert fald sige, det har været super sjovt at lære og at bruge.
+Ja det ville jeg i hvert fald sige, 
+det har været super sjovt at lære og at bruge.
 
 ### Ville du vælge et andet i dag?
 
-Nej det ville jeg faktisk ikke. 
-
+Nej det ville jeg faktisk ikke,
 Jeg ville rigtig gerne lære mere om Vue 3 og blive ved med at bruge det.
 
 ---
