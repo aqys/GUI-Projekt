@@ -92,10 +92,10 @@ Jeg ville rigtig gerne lære mere om Vue 3 og blive ved med at bruge det.
 
 #### Dependencies
 
-- <span color="#7ee787">@tabler/icons-vue <span color="#96c3e8">v3.41.1</span></span>
-- <span color="#7ee787">vue3-apexcharts <span color="#96c3e8">v1.11.1</span></span>
-- <span color="#7ee787">pinia <span color="#96c3e8">v3.0.4</span></span>
-- <span color="#7ee787">vue-router <span color="#96c3e8">v4.6.4</span></span>
+- ![@tabler/icons-vue](https://img.shields.io/badge/@tabler/icons--vue-v3.41.1-7ee787)
+- ![vue3-apexcharts](https://img.shields.io/badge/vue3--apexcharts-v1.11.1-7ee787)
+- ![pinia](https://img.shields.io/badge/pinia-v3.0.4-96c3e8)
+- ![vue-router](https://img.shields.io/badge/vue--router-v4.6.4-96c3e8)
 
 &nbsp;
 
