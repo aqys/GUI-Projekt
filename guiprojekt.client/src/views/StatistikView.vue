@@ -184,7 +184,7 @@ const donutOptions = computed<ApexOptions>(() => ({
           total: {
             show: true,
             label: 'Kampe',
-            color: getCssVar('--color-border', '#cbd5e1'),
+            color: getCssVar('--color-text', '#cbd5e1'),
             formatter: (ctx) => {
               const total = ctx.globals.seriesTotals.reduce((sum: number, value: number) => sum + value, 0)
               return `${total}`
@@ -391,7 +391,7 @@ onMounted(async () => {
 }
 
 .summary-label {
-  opacity: 0.75;
+  opacity: 1;
   font-size: 0.82rem;
 }
 
